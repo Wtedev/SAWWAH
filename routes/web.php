@@ -1,39 +1,31 @@
-<?php
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\TripController;
-use App\Http\Controllers\ProfileController;
 
-// ✅ الصفحة الرئيسية
-Route::get('/', [HomeController::class, 'index'])->name('home');
+// الصفحة الرئيسية
+Route::get('/', function () {
+    return view('home');
+})->name('home');
 
-// ✅ صفحة "عن المشروع" (ثابتة)
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
+// نموذج الاقتراح
+Route::get('/suggest', function () {
+    return view('suggest.form');
+})->name('suggest.form');
 
-// ✅ صفحة "تواصل معنا"
-Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+// نتيجة إرسال الاقتراح
+Route::post('/suggest/result', function () {
+    return view('suggest.result');
+})->name('suggest.result');
 
-// ✅ صفحة عرض جميع الرحلات
-Route::get('/trips', [TripController::class, 'index'])->name('trips.index');
+// صفحة تخطيط الرحلة
+Route::get('/trip-planner', function () {
+    return view('trip-planner.index'); // أو trip/planner حسب الترتيب
+})->name('trip.planner');
 
-// ✅ صفحة تفاصيل رحلة (ID ديناميكي)
-Route::get('/trips/{id}', [TripController::class, 'show'])->name('trips.show');
+// إدارة الفعاليات (عرض)
+Route::get('/admin/events', function () {
+    return view('admin.events.index'); // أو admin_events_index
+})->name('admin.events.index');
 
-// ✅ لوحة التحكم (تحتاج تسجيل دخول)
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-// ✅ صفحات الملف الشخصي
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-// ✅ تسجيل الدخول والتسجيل
-require __DIR__.'/auth.php';
+// إدارة الفعاليات (نموذج الإضافة/التعديل)
+Route::get('/admin/events/form', function () {
+    return view('admin.events.form'); // أو admin_events_form
+})->name('admin.events.form');
