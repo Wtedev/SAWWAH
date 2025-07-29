@@ -1,3 +1,5 @@
+<?php
+
 use Illuminate\Support\Facades\Route;
 
 // الصفحة الرئيسية
@@ -17,15 +19,15 @@ Route::post('/suggest/result', function () {
 
 // صفحة تخطيط الرحلة
 Route::get('/trip-planner', function () {
-    return view('trip-planner.index'); // أو trip/planner حسب الترتيب
+    return view('trip-planner.index');
 })->name('trip.planner');
 
 // إدارة الفعاليات (عرض)
 Route::get('/admin/events', function () {
-    return view('admin.events.index'); // أو admin_events_index
+    return view('admin.events.index');
 })->name('admin.events.index');
 
 // إدارة الفعاليات (نموذج الإضافة/التعديل)
 Route::get('/admin/events/form', function () {
-    return view('admin.events.form'); // أو admin_events_form
+    return view('admin.events.form');
 })->name('admin.events.form');
