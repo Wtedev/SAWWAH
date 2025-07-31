@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('title', 'الصفحة الرئيسية')
 
@@ -8,7 +8,7 @@
     <p class="text-lg text-gray-700 mb-6">
         اكتشف أجمل الرحلات والوجهات السياحية داخل السعودية مع سواح. نسهل لك التخطيط، ونساعدك على الاستمتاع بتجربة لا تُنسى.
     </p>
-<a href="{{ route('trips.index') }}"
+<a href="{{ route('trip.planner') }}"
    class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-700 hover:scale-105 transition transform duration-200">
    استكشف الرحلات ✈️
 </a>

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('title', 'تم الإرسال')
 
@@ -9,9 +9,10 @@
         تم استلام اقتراحك بنجاح وسنأخذه بعين الاعتبار في تطوير منصة سواح.
     </p>
 
-    <a href="{{ route('home') }}"
+    <a href="{{ route('home') }} "
        class="mt-8 inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
         🔙 الرجوع إلى الصفحة الرئيسية
     </a>
 </div>
 @endsection
+
