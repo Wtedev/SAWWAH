@@ -1,14 +1,16 @@
-@extends('layout')
+@extends('layout.app')
 
-@section('title', 'الصفحة غير موجودة')
+@section('title', 'خطأ 404')
 
 @section('content')
-<div class="text-center py-24 px-6">
-    <h1 class="text-6xl text-red-600 font-bold mb-4">404</h1>
-    <p class="text-xl text-gray-700 mb-6">الصفحة التي تبحث عنها غير موجودة</p>
-    <a href="{{ route('home') }}"
-       class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
-        العودة للرئيسية 🏠
-    </a>
-</div>
+
+    <div class="text-center mt-24">
+        <h1 class="text-6xl font-extrabold text-pink-500 mb-4">404</h1>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">عذرًا، لم يتم العثور على الصفحة</h2>
+        <p class="text-gray-500 mb-6">يبدو أنك حاولت الوصول إلى رابط غير موجود أو تم حذفه.</p>
+        <a href="{{ url('/') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-full text-lg font-bold">
+            العودة للصفحة الرئيسية
+        </a>
+    </div>
+
 @endsection

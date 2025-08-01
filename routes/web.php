@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CountryController; // تأكد من استيراد الكنترولر
+use App\Http\Controllers\Admin\EventController;
 
-// 🌍 الصفحة الرئيسية
+// 🏠 الصفحة الرئيسية
 Route::get('/', function () {
     return view('home');
 })->name('home');
@@ -21,20 +22,8 @@ Route::get('/events', function () {
     return view('events.index'); // عرض قائمة الفعاليات
 })->name('events.index');
 
-// ✍️ إضافة فعالية
-Route::get('/events/create', function () {
-    return view('events.form'); // صفحة إضافة فعالية جديدة
-})->name('events.create');
-
-// ✍️ تعديل فعالية
-Route::get('/events/{id}/edit', function ($id) {
-    return view('events.form', compact('id')); // صفحة تعديل فعالية
-})->name('events.edit');
-
-// 🧭 خطط رحلتي (Planner)
-Route::get('/trip-planner', function () {
-    return view('trip-planner.index'); // صفحة تخطيط الرحلة
-})->name('trip.planner');
+// 🧭 مخطط الرحلات
+Route::view('/trip-planner', 'trip-planner.index')->name('trip-planner');
 
 // 📝 نموذج الاقتراح
 Route::get('/suggest', function () {
@@ -42,24 +31,30 @@ Route::get('/suggest', function () {
 })->name('suggest.form');
 
 // ✅ نتيجة الاقتراح (POST)
-Route::post('/suggest/result', function () {
-    return view('suggest.result'); // عرض نتيجة الاقتراح
+Route::post('/suggest', function () {
+    // في المستقبل: معالجة البيانات
+    return redirect()->route('suggest.result');
+})->name('suggest.store');
+
+// 🗺️ صفحة نتيجة الاقتراح
+Route::get('/suggest/result', function () {
+    return view('suggest.result');
 })->name('suggest.result');
 
-// 👤 الملف الشخصي (مؤقت بدون تسجيل دخول)
-Route::get('/profile', function () {
-    return view('profile.index'); // عرض ملف المستخدم الشخصي
-})->name('profile');
+// مسارات الأدمن - إدارة الفعاليات (CRUD)
+Route::prefix('admin/events')->name('admin.events.')->group(function () {
+    Route::get('/', [EventController::class, 'index'])->name('index');
+    Route::get('/create', [EventController::class, 'create'])->name('create');
+    Route::post('/', [EventController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [EventController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [EventController::class, 'update'])->name('update');
+    Route::delete('/{id}', [EventController::class, 'destroy'])->name('destroy');
+});
 
-// 💌 تواصل معنا
-Route::get('/contact', function () {
-    return view('contact'); // صفحة تواصل معنا
-})->name('contact');
-
-// ❌ صفحة الخطأ 404
+// ⚠️ صفحة الخطأ 404
 Route::fallback(function () {
-    return view('errors.404'); // صفحة الخطأ 404
-})->name('fallback');
+    return response()->view('errors.404', [], 404);
+});
 
 // ===============================
 // 💡 مسار لوحة القيادة (Dashboard) - تمت إضافته لحل مشكلة 'Route [dashboard] not defined'
@@ -107,5 +102,4 @@ Route::get('/admin/events/create', function () {
 Route::get('/admin/events/{id}/edit', function ($id) {
     return view('admin.events.form', compact('id')); // صفحة تعديل فعالية في لوحة التحكم
 })->name('admin.events.edit');
-
 
