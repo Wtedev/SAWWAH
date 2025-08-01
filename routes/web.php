@@ -5,6 +5,9 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\ProfileController; // **قمنا بإضافة هذا السطر**
 
+
+
+
 // 🏠 الصفحة الرئيسية
 Route::get('/', function () {
     return view('home');
@@ -67,8 +70,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// مسارات الأدمن - إدارة الفعاليات (CRUD)
-Route::prefix('admin/events')->name('admin.events.')->group(function () {
+// 🔐 مسارات الأدمن - إدارة الفعاليات (تتطلب auth + is_admin)
+Route::middleware(['auth', 'is_admin'])->prefix('admin/events')->name('admin.events.')->group(function () {
     Route::get('/', [EventController::class, 'index'])->name('index');
     Route::get('/create', [EventController::class, 'create'])->name('create');
     Route::post('/', [EventController::class, 'store'])->name('store');
@@ -76,6 +79,7 @@ Route::prefix('admin/events')->name('admin.events.')->group(function () {
     Route::put('/{id}', [EventController::class, 'update'])->name('update');
     Route::delete('/{id}', [EventController::class, 'destroy'])->name('destroy');
 });
+
 
 // ⚠️ صفحة الخطأ 404
 Route::fallback(function () {
@@ -100,21 +104,6 @@ Route::get('/admin/countries/create', function () {
 Route::get('/admin/countries/{id}/edit', function ($id) {
     return view('admin.countries.form', compact('id'));
 })->name('admin.countries.edit');
-
-// 🌐 إدارة الفعاليات
-Route::get('/admin/events', function () {
-    return view('admin.events.index');
-})->name('admin.events.index');
-
-// ✍️ إضافة فعالية
-Route::get('/admin/events/create', function () {
-    return view('admin.events.form');
-})->name('admin.events.create');
-
-// ✍️ تعديل فعالية
-Route::get('/admin/events/{id}/edit', function ($id) {
-    return view('admin.events.form', compact('id'));
-})->name('admin.events.edit');
 
 // ===============================
 // 🔑 مسارات المصادقة (Authentication Routes)

@@ -1,14 +1,40 @@
+@section('content')
+
+<style>
+.bg-moving {
+    animation: zoomSlow 20s ease-in-out infinite;
+    background-size: 110%;
+    background-position: center;
+}
+
+@keyframes zoomSlow {
+    0%, 100% {
+        background-size: 100%;
+    }
+    50% {
+        background-size: 110%;
+    }
+}
+</style>
+
+
 @extends('layout.app')
 
-@section('title', 'الوجهات السياحية الأكثر زيارة')
+
+@section('title', 'الوجهات السياحية')
 
 @section('content')
 
 {{-- قسم بطل --}}
-<section class="bg-[url('/images/bg-hero.jpg')] bg-cover bg-center text-white py-32 text-center mb-16 shadow-xl">
-    <h1 class="text-5xl font-bold mb-4 drop-shadow-lg">🌍 الوجهات السياحية الأكثر زيارة</h1>
-    <p class="text-xl drop-shadow-md">اكتشف أجمل الأماكن داخل السعودية وخارجها مع سواح</p>
+<section class="relative overflow-hidden text-white py-32 text-center mb-16 shadow-xl">
+    <div class="absolute inset-0 bg-[url('/images/saudi-outline.png')] bg-cover bg-center opacity-60 bg-moving"></div>
+    <div class="relative z-10">
+        <h1 class="text-5xl font-bold mb-4 drop-shadow-lg">🌍 الوجهات السياحية الأكثر زيارة</h1>
+        <p class="text-xl drop-shadow-md">اكتشف أجمل الأماكن داخل السعودية وخارجها مع سواح</p>
+    </div>
 </section>
+
+
 
 {{-- قسم داخل السعودية --}}
 <section class="max-w-7xl mx-auto px-4">
@@ -61,3 +87,4 @@
 </section>
 
 @endsection
+
