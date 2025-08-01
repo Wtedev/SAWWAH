@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layout.app')
 
 @section('title', 'تواصل معنا - سواح')
 
@@ -57,10 +57,11 @@
         <!-- الحقوق محفوظة -->
         <div class="text-center text-gray-500 text-sm mt-6">
             <p>جميع الحقوق محفوظة &copy; 2025</p>
-            <img src="path/to/airplane-icon.png" alt="SAWWAH" class="mx-auto mt-2">
+            <img src="{{ asset('images/airplane-icon.jpg') }}" alt="SAWWAH" class="mx-auto mt-2 w-12 h-12">
         </div>
     </div>
 @endsection
+
 
 
 

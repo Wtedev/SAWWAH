@@ -1,25 +1,29 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CountryController; // تأكد من استيراد الكنترولر
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\ProfileController; // **قمنا بإضافة هذا السطر**
 
 // 🏠 الصفحة الرئيسية
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
+// ** 📍 قائمة الوجهات السياحية (تمت إضافته لإصلاح خطأ 404) **
+Route::get('/places', [CountryController::class, 'index'])->name('places.index');
+
 // 🌍 قائمة الدول
-Route::get('/countries', [CountryController::class, 'index'])->name('countries.index'); // استخدام الكنترولر لعرض الدول
+Route::get('/countries', [CountryController::class, 'index'])->name('countries.index');
 
 // 🌍 تفاصيل الدولة
-Route::get('/countries/{slug}', function ($slug) { // تعديل {id} إلى {slug}
-    return view('countries.show', compact('slug')); // عرض تفاصيل الدولة
+Route::get('/countries/{slug}', function ($slug) {
+    return view('countries.show', compact('slug'));
 })->name('countries.show');
 
 // 🎉 أهم الفعاليات
 Route::get('/events', function () {
-    return view('events.index'); // عرض قائمة الفعاليات
+    return view('events.index');
 })->name('events.index');
 
 // 🧭 مخطط الرحلات
@@ -27,7 +31,7 @@ Route::view('/trip-planner', 'trip-planner.index')->name('trip-planner');
 
 // 📝 نموذج الاقتراح
 Route::get('/suggest', function () {
-    return view('suggest.form'); // نموذج اقتراح جديد
+    return view('suggest.form');
 })->name('suggest.form');
 
 // ✅ نتيجة الاقتراح (POST)
@@ -40,6 +44,28 @@ Route::post('/suggest', function () {
 Route::get('/suggest/result', function () {
     return view('suggest.result');
 })->name('suggest.result');
+
+// 📞 مسار صفحة "تواصل معنا"
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
+// ===================================================================
+// 🔑 مسارات المستخدم (User) - تتطلب تسجيل دخول
+// ===================================================================
+Route::middleware('auth')->group(function () {
+
+    // 👤 مسار الملف الشخصي - قمنا بإضافة هذا المسار
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // 💡 مسار لوحة القيادة (Dashboard)
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+
 
 // مسارات الأدمن - إدارة الفعاليات (CRUD)
 Route::prefix('admin/events')->name('admin.events.')->group(function () {
@@ -57,49 +83,40 @@ Route::fallback(function () {
 });
 
 // ===============================
-// 💡 مسار لوحة القيادة (Dashboard) - تمت إضافته لحل مشكلة 'Route [dashboard] not defined'
-// ===============================
-Route::get('/dashboard', function () {
-    return view('dashboard'); // يشير إلى ملف resources/views/dashboard.blade.php
-})->name('dashboard');
-
-// ===============================
-// 🔑 مسارات المصادقة (Authentication Routes) - تمت إضافتها لحل مشكلة 'Route [login] not defined'
-// هذا السطر يقوم بتضمين جميع مسارات تسجيل الدخول والتسجيل وغيرها من ملف routes/auth.php
-// ===============================
-require __DIR__.'/auth.php';
-
-// ===============================
 // 👑 صفحات الأدمن (Admin)
 // ===============================
 
 // 🌐 إدارة الدول
 Route::get('/admin/countries', function () {
-    return view('admin.countries.index'); // عرض قائمة الدول في لوحة التحكم
+    return view('admin.countries.index');
 })->name('admin.countries.index');
 
 // ✍️ إضافة دولة
 Route::get('/admin/countries/create', function () {
-    return view('admin.countries.form'); // صفحة إضافة دولة جديدة في لوحة التحكم
+    return view('admin.countries.form');
 })->name('admin.countries.create');
 
 // ✍️ تعديل دولة
 Route::get('/admin/countries/{id}/edit', function ($id) {
-    return view('admin.countries.form', compact('id')); // صفحة تعديل الدولة في لوحة التحكم
+    return view('admin.countries.form', compact('id'));
 })->name('admin.countries.edit');
 
 // 🌐 إدارة الفعاليات
 Route::get('/admin/events', function () {
-    return view('admin.events.index'); // عرض قائمة الفعاليات في لوحة التحكم
+    return view('admin.events.index');
 })->name('admin.events.index');
 
 // ✍️ إضافة فعالية
 Route::get('/admin/events/create', function () {
-    return view('admin.events.form'); // صفحة إضافة فعالية جديدة في لوحة التحكم
+    return view('admin.events.form');
 })->name('admin.events.create');
 
 // ✍️ تعديل فعالية
 Route::get('/admin/events/{id}/edit', function ($id) {
-    return view('admin.events.form', compact('id')); // صفحة تعديل فعالية في لوحة التحكم
+    return view('admin.events.form', compact('id'));
 })->name('admin.events.edit');
 
+// ===============================
+// 🔑 مسارات المصادقة (Authentication Routes)
+// ===============================
+require __DIR__.'/auth.php';

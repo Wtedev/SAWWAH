@@ -2,16 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-<<<<<<< HEAD
-
 body, html {
     height: 100%;
     margin: 0;
     padding: 0;
 }
 
-
-=======
 body {
     font-family: 'Tajawal', sans-serif;
 }
@@ -43,4 +39,3 @@ body {
 .shadow-md {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
->>>>>>> ea06f2467e08a31de7bd3da60762a64e038e02fb
