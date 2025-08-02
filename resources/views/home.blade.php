@@ -47,7 +47,7 @@
     <div class="px-6 md:px-20 space-y-12">
 
         <!-- الوجهات السعودية -->
-        <h3 class="text-2xl font-semibold text-pink-500">داخل السعودية 🇸🇦</h3>
+        <h3 class="text-2xl font-semibold text-pink-500">داخل السعودية </h3>
         <div class="grid md:grid-cols-4 gap-6">
             <x-destination-card name="جدة" img="jeddah.jpg" />
             <x-destination-card name="المدينة" img="madinah.jpg" />
@@ -56,7 +56,7 @@
         </div>
 
         <!-- الوجهات الخليجية -->
-        <h3 class="text-2xl font-semibold text-pink-500 mt-10">دول الخليج 🌍</h3>
+        <h3 class="text-2xl font-semibold text-pink-500 mt-10">دول الخليج </h3>
         <div class="grid md:grid-cols-4 gap-6">
             <x-destination-card name="دبي" img="dubai.jpg" />
             <x-destination-card name="أبو ظبي" img="abudhabi.jpg" />
