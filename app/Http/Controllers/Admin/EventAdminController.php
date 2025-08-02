@@ -18,7 +18,7 @@ class EventAdminController extends Controller
     public function create()
     {
         $countries = Country::all();
-        return view('admin.events.create', compact('countries'));
+        return view('admin.events.form', compact('countries'));
     }
 
     public function store(Request $request)
@@ -43,7 +43,7 @@ class EventAdminController extends Controller
     public function edit(Event $event)
     {
         $countries = Country::all();
-        return view('admin.events.edit', compact('event', 'countries'));
+        return view('admin.events.form', compact('event', 'countries'));
     }
 
     public function update(Request $request, Event $event)

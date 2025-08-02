@@ -29,8 +29,24 @@
 
             <!-- Page Content -->
             <main>
+<<<<<<< HEAD
                 {{ $slot }}
+=======
+                {{-- هذا السطر يستقبل المحتوى من Laravel Components (مثل x-app-layout) --}}
+                {{-- تم إضافة شرط @isset للتأكد من أن $slot معرف قبل محاولة عرضه --}}
+                @isset($slot)
+                    {{ $slot }}
+                @endisset
+
+                {{-- هذا السطر يستقبل المحتوى من Views التي تستخدم @extends و @section('content') --}}
+                @yield('content')
+>>>>>>> e80a85e91ffad3608c15fdcb1ee44c0e4ce02437
             </main>
         </div>
     </body>
 </html>
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> e80a85e91ffad3608c15fdcb1ee44c0e4ce02437
