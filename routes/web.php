@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\CountryAdminController;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\Admin\EventAdminController;
 
 // ✅ الصفحة الرئيسية
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -42,30 +44,10 @@ require __DIR__.'/auth.php';
 
 
 
-});
-=======
-use App\Http\Controllers\CountryController;
-use App\Http\Controllers\Admin\EventController;
-use App\Http\Controllers\ProfileController; // **قمنا بإضافة هذا السطر**
 
 
+Route::resource('countries', CountryController::class);
 
-
-// 🏠 الصفحة الرئيسية
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-
-// ** 📍 قائمة الوجهات السياحية (تمت إضافته لإصلاح خطأ 404) **
-Route::get('/places', [CountryController::class, 'index'])->name('places.index');
-
-// 🌍 قائمة الدول
-Route::get('/countries', [CountryController::class, 'index'])->name('countries.index');
-
-// 🌍 تفاصيل الدولة
-Route::get('/countries/{slug}', function ($slug) {
-    return view('countries.show', compact('slug'));
-})->name('countries.show');
 
 // 🎉 أهم الفعاليات
 Route::get('/events', function () {
@@ -115,41 +97,27 @@ Route::middleware('auth')->group(function () {
 
 // 🔐 مسارات الأدمن - إدارة الفعاليات (تتطلب auth + is_admin)
 Route::middleware(['auth', 'is_admin'])->prefix('admin/events')->name('admin.events.')->group(function () {
-    Route::get('/', [EventController::class, 'index'])->name('index');
-    Route::get('/create', [EventController::class, 'create'])->name('create');
-    Route::post('/', [EventController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [EventController::class, 'edit'])->name('edit');
-    Route::put('/{id}', [EventController::class, 'update'])->name('update');
-    Route::delete('/{id}', [EventController::class, 'destroy'])->name('destroy');
+    Route::get('/', [EventAdminController::class, 'index'])->name('index');
+    Route::get('/create', [EventAdminController::class, 'create'])->name('create');
+    Route::post('/', [EventAdminController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [EventAdminController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [EventAdminController::class, 'update'])->name('update');
+    Route::delete('/{id}', [EventAdminController::class, 'destroy'])->name('destroy');
+
 });
 
 
-// ⚠️ صفحة الخطأ 404
-Route::fallback(function () {
-    return response()->view('errors.404', [], 404);
-});
+
 
 // ===============================
 // 👑 صفحات الأدمن (Admin)
 // ===============================
 
 // 🌐 إدارة الدول
-Route::get('/admin/countries', function () {
-    return view('admin.countries.index');
-})->name('admin.countries.index');
 
-// ✍️ إضافة دولة
-Route::get('/admin/countries/create', function () {
-    return view('admin.countries.form');
-})->name('admin.countries.create');
+Route::prefix('admin')->group(function () {
+    Route::resource('countries', CountryAdminController::class)->names('admin.countries');
+});
 
-// ✍️ تعديل دولة
-Route::get('/admin/countries/{id}/edit', function ($id) {
-    return view('admin.countries.form', compact('id'));
-})->name('admin.countries.edit');
 
-// ===============================
-// 🔑 مسارات المصادقة (Authentication Routes)
-// ===============================
-require __DIR__.'/auth.php';
->>>>>>> e80a85e91ffad3608c15fdcb1ee44c0e4ce02437
+

@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-=======
+
+
 use App\Models\Country; // استيراد موديل الدول
->>>>>>> e80a85e91ffad3608c15fdcb1ee44c0e4ce02437
 use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
-<<<<<<< HEAD
-    //
-}
-=======
+
+
+
     public function index()
     {
         // استرجاع جميع الدول من قاعدة البيانات
@@ -22,6 +20,9 @@ class CountryController extends Controller
         // تمرير المتغير $countries إلى الواجهة
         return view('countries.index', compact('countries'));
     }
+    public function show(Country $country)
+    {
+        return view('countries.show', compact('country'));
+    }
 }
 
->>>>>>> e80a85e91ffad3608c15fdcb1ee44c0e4ce02437

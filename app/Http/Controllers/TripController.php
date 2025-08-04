@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-=======
+
+
 use App\Models\Trip;
 use App\Models\Country; // استيراد موديل الدول
->>>>>>> e80a85e91ffad3608c15fdcb1ee44c0e4ce02437
 use Illuminate\Http\Request;
 
 class TripController extends Controller
 {
-<<<<<<< HEAD
+
     //
-}
-=======
+
+
     // عرض قائمة الرحلات
     public function index()
     {
@@ -36,8 +35,4 @@ class TripController extends Controller
     }
 }
 
-// إضافة مسار العرض للرحلات
-use App\Http\Controllers\TripController;
 
-Route::get('/trips', [TripController::class, 'index'])->name('trips.index');
->>>>>>> e80a85e91ffad3608c15fdcb1ee44c0e4ce02437

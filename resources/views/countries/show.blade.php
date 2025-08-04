@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layout.app')
 
 @section('title', $country->name . ' - سواح') {{-- عنوان الصفحة --}}
 
@@ -11,15 +11,15 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                @foreach ($country->touristSpots as $spot)
+
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img class="w-full h-48 object-cover" src="{{ $spot->image_url }}" alt="{{ $spot->name }}">
+                        <img class="w-full h-48 object-cover" src="{{asset('uploads/'.$country->image)}}" alt="{{ $country->name }}">
                         <div class="p-4">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $spot->name }}</h3>
-                            <p class="text-gray-600 text-sm">{{ $spot->description }}</p>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $country->name }}</h3>
+                            <p class="text-gray-600 text-sm">{{ $country->description }}</p>
                         </div>
                     </div>
-                @endforeach
+
             </div>
         </div>
     </div>

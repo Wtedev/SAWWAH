@@ -2,18 +2,11 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
+
 use Illuminate\Http\Request;
+//use App\Models\SuggestionLog;
 
 class SuggestionController extends Controller
-{
-    //
-}
-=======
-use App\Models\SuggestionLog; // استيراد موديل تسجيل الاقتراحات
-use Illuminate\Http\Request;
-
-class SuggestController extends Controller
 {
     public function create()
     {
@@ -32,6 +25,3 @@ class SuggestController extends Controller
         return view('suggest.result');
     }
 }
-
-
->>>>>>> e80a85e91ffad3608c15fdcb1ee44c0e4ce02437

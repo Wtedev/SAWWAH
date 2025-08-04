@@ -1,8 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-<<<<<<< HEAD
-=======
+
 
 body, html {
     height: 100%;
@@ -12,6 +11,8 @@ body, html {
 
 body {
     font-family: 'Tajawal', sans-serif;
+
+
 }
 
 .container {
@@ -41,4 +42,4 @@ body {
 .shadow-md {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
->>>>>>> e80a85e91ffad3608c15fdcb1ee44c0e4ce02437
+
