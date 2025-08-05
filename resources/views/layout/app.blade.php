@@ -24,7 +24,7 @@
             <nav class="space-y-2 text-right">
                 <a href="/" class="block text-gray-700 font-medium hover:text-pink-500">الصفحة الرئيسية</a>
                 <a href="/trip-planner" class="block text-gray-700 font-medium hover:text-pink-500">مخطط الرحلات</a>
-                <a href="/places" class="block text-gray-700 font-medium hover:text-pink-500">قائمة الوجهات السياحية</a>
+                <a href="{{route('countries.index')}}" class="block text-gray-700 font-medium hover:text-pink-500">قائمة الوجهات السياحية</a>
                 <a href="/events" class="block text-gray-700 font-medium hover:text-pink-500">أهم الفعاليات</a>
                 <a href="/suggest" class="block bg-pink-500 text-white text-center py-2 rounded-lg font-bold hover:bg-pink-600">نظام الإقتراح الذكي</a>
                 <hr class="my-4">
