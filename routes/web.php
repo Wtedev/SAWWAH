@@ -55,7 +55,11 @@ Route::get('/events', function () {
 })->name('events.index');
 
 // 🧭 مخطط الرحلات
-Route::view('/trip-planner', 'trip-planner.index')->name('trip-planner');
+// Route::view('/trip-planner', 'trip-planner.index')->name('trip-planner');
+// تعديل ربط الكنترولر -> lama 
+use App\Http\Controllers\TripPlannerController;
+Route::get('/trip-planner', [TripPlannerController::class, 'index'])->name('trip-planner');
+
 
 // 📝 نموذج الاقتراح
 Route::get('/suggest', function () {
