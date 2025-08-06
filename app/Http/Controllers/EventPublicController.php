@@ -13,7 +13,7 @@ class EventPublicController extends Controller
         return view('event.index', compact('events'));
     }
 
-    // عرض الفعاليات حسب الدولة
+    // عرض الفعاليات حسب المدينه
     public function filterByCountry($country)
     {
         $events = Event::whereHas('country', function ($query) use ($country) {
