@@ -109,6 +109,19 @@
             alert("📢 قريباً سيتم عرض تفاصيل الفعالية 🎉");
         });
     });
+    function filterEvents() {
+        const selectedCity = document.getElementById("citySelect").value;
+        const allCards = document.querySelectorAll(".event-card");
+
+        allCards.forEach(card => {
+            const cardCity = card.getAttribute("data-city");
+            if (selectedCity === "all" || selectedCity === cardCity) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
 </script>
 
 @endsection
