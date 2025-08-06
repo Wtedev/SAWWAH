@@ -61,21 +61,49 @@ use App\Http\Controllers\TripPlannerController;
 Route::get('/trip-planner', [TripPlannerController::class, 'index'])->name('trip-planner');
 
 
+
+// ===================================================================
+
 // 📝 نموذج الاقتراح
+// تعديل الراوت للكنترولر -> lama
+
+
+// Route::get('/suggest', function () {
+//     return view('suggest.form');
+// })->name('suggest.form');
+// // use App\Http\Controllers\SuggestionController;
+// // Route::get('/suggest', [SuggestionController::class, 'store'])->name('suggest.store');
+
+
+// // ✅ نتيجة الاقتراح (POST)
+// Route::post('/suggest', function () {
+//     // في المستقبل: معالجة البيانات
+//     return redirect()->route('suggest.result');
+// })->name('suggest.store');
+
+// // 🗺️ صفحة نتيجة الاقتراح
+// Route::get('/suggest/result', function () {
+//     return view('suggest.result');
+// })->name('suggest.result');
+
+use App\Http\Controllers\SuggestionController;
+
+
+// صفحة "نموذج الاقتراح"
 Route::get('/suggest', function () {
     return view('suggest.form');
 })->name('suggest.form');
 
-// ✅ نتيجة الاقتراح (POST)
-Route::post('/suggest', function () {
-    // في المستقبل: معالجة البيانات
-    return redirect()->route('suggest.result');
-})->name('suggest.store');
+// عملية إرسال الاقتراح (POST)
+Route::post('/suggest', [SuggestionController::class, 'store'])->name('suggest.store');
 
-// 🗺️ صفحة نتيجة الاقتراح
+// صفحة "نتيجة الاقتراح"
 Route::get('/suggest/result', function () {
     return view('suggest.result');
 })->name('suggest.result');
+
+
+// ===================================================================
 
 // 📞 مسار صفحة "تواصل معنا"
 Route::get('/contact', function () {
