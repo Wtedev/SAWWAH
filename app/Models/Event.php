@@ -32,6 +32,11 @@ class Event extends Model
         'tags' => 'array'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function country()
     {
         return $this->belongsTo(Country::class);

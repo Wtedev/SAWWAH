@@ -25,12 +25,9 @@ class CountryAdminController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'nullable|string|max:10',
-            'postal_code' => 'nullable|string|max:20',
-            'capital' => 'nullable|string|max:255',
+            'capital' => 'required|string|max:255',
             'description' => 'required|string',
             'currency' => 'required|string|max:255',
-            'daily_budget' => 'required|string|max:255',
             'temp' => 'required|string|max:255',
             'condition' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -50,14 +47,11 @@ class CountryAdminController extends Controller
 
         Country::create([
             'name' => $request->name,
-            'code' => $request->code,
-            'postal_code' => $request->postal_code,
             'capital' => $request->capital,
             'description' => $request->description,
             'slug' => Str::slug($request->name),
             'weather_info' => $weather_info,
             'currency' => $request->currency,
-            'daily_budget' => $request->daily_budget,
             'image' => $imagePath,
             'best_month_to_travel' => $request->best_month_to_travel,
             'preferred_budget' => $request->preferred_budget,
@@ -78,12 +72,9 @@ class CountryAdminController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'nullable|string|max:10',
-            'postal_code' => 'nullable|string|max:20',
-            'capital' => 'nullable|string|max:255',
+            'capital' => 'required|string|max:255',
             'description' => 'required|string',
             'currency' => 'required|string|max:255',
-            'daily_budget' => 'required|string|max:255',
             'temp' => 'required|string|max:255',
             'condition' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -111,14 +102,11 @@ class CountryAdminController extends Controller
 
         $country->update([
             'name' => $request->name,
-            'code' => $request->code,
-            'postal_code' => $request->postal_code,
             'capital' => $request->capital,
             'description' => $request->description,
             'slug' => Str::slug($request->name),
             'weather_info' => $weather_info,
             'currency' => $request->currency,
-            'daily_budget' => $request->daily_budget,
             'image' => $imagePath,
             'best_month_to_travel' => $request->best_month_to_travel,
             'preferred_budget' => $request->preferred_budget,

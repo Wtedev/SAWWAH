@@ -10,8 +10,6 @@ class Country extends Model
     use HasWeather;
     protected $fillable = [
         'name',
-        'code',
-        'postal_code',
         'description',
         'currency',
         'weather_info',

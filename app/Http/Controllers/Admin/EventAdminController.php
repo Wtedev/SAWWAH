@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Country;
+use Illuminate\Support\Str;
 
 class EventAdminController extends Controller
 {
@@ -30,13 +31,14 @@ class EventAdminController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'location' => 'nullable|string|max:255',
-            'price' => 'nullable|string|max:255',
+            'price' => 'nullable|numeric|min:0',
             'country_id' => 'nullable|exists:countries,id',
             'is_featured' => 'boolean',
         ]);
 
         Event::create([
             'name' => $request->name,
+            'slug' => Str::slug($request->name),
             'description' => $request->description,
             'city' => $request->city,
             'start_date' => $request->start_date,
@@ -65,13 +67,14 @@ class EventAdminController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'location' => 'nullable|string|max:255',
-            'price' => 'nullable|string|max:255',
+            'price' => 'nullable|numeric|min:0',
             'country_id' => 'nullable|exists:countries,id',
             'is_featured' => 'boolean',
         ]);
 
         $event->update([
             'name' => $request->name,
+            'slug' => Str::slug($request->name),
             'description' => $request->description,
             'city' => $request->city,
             'start_date' => $request->start_date,

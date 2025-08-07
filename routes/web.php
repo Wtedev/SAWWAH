@@ -212,5 +212,22 @@ Route::prefix('admin')->group(function () {
     Route::resource('countries', CountryAdminController::class)->names('admin.countries');
 });
 
-// Weather API Route
-Route::post('/api/weather/country', [WeatherController::class, 'getWeatherByCountryCode'])->name('api.weather.country');
+// Weather API Routes
+Route::post('/admin/countries/weather', [WeatherController::class, 'getWeatherByCapital'])->name('admin.weather.capital');
+Route::post('/api/weather/country', [WeatherController::class, 'getWeatherByCountryCode'])->name('api.weather.country'); // للتوافق مع النظام السابق
+
+// Weather Test Route (للاختبار فقط)
+Route::get('/test-weather', function () {
+    $weatherController = new WeatherController();
+    
+    $cities = ['Riyadh', 'Dubai', 'London', 'Cairo', 'Paris'];
+    $results = [];
+    
+    foreach ($cities as $city) {
+        $request = new \Illuminate\Http\Request(['capital' => $city]);
+        $response = $weatherController->getWeatherByCapital($request);
+        $results[$city] = json_decode($response->getContent(), true);
+    }
+    
+    return view('test-weather', compact('results'));
+})->name('test.weather');
