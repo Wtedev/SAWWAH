@@ -12,18 +12,18 @@
         </div>
         <a href="{{ route('update.weather') }}" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-lg shadow-md transition duration-300 flex items-center space-x-2 rtl:space-x-reverse">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 rtl:mr-1 rtl:ml-0" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" />
             </svg>
             <span>تحديث بيانات الطقس</span>
         </a>
     </div>
-    
+
     @if(session('success'))
     <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded shadow-md">
         {{ session('success') }}
     </div>
     @endif
-    
+
     @if(session('error'))
     <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded shadow-md">
         {{ session('error') }}

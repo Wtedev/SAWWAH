@@ -17,26 +17,26 @@ class CountryController extends Controller
         // تمرير المتغير $countries إلى الواجهة
         return view('countries.index', compact('countries'));
     }
-    
+
     public function show(Country $country)
     {
         return view('countries.show', compact('country'));
     }
-    
+
     public function updateWeather()
     {
         try {
             $countries = Country::all();
             $weatherService = app(WeatherService::class);
             $updatedCount = 0;
-            
+
             foreach ($countries as $country) {
                 if ($country->capital) {
                     $weatherData = $weatherService->getWeatherForCity(
                         $country->name,     // country name
                         $country->capital   // capital city
                     );
-                    
+
                     if ($weatherData) {
                         $country->weather_info = [
                             'temp' => $weatherData['temp'], // already in Celsius from the service
@@ -47,7 +47,7 @@ class CountryController extends Controller
                     }
                 }
             }
-            
+
             return redirect()->route('countries.index')
                 ->with('success', "تم تحديث بيانات الطقس لـ {$updatedCount} دولة بنجاح");
         } catch (\Exception $e) {
@@ -56,7 +56,7 @@ class CountryController extends Controller
                 ->with('error', 'حدث خطأ أثناء تحديث بيانات الطقس');
         }
     }
-    
+
     private function translateWeatherCondition($condition)
     {
         // The condition is already in Arabic from the API (lang=ar in the API call)
@@ -78,7 +78,7 @@ class CountryController extends Controller
             'Squall' => 'عاصف مفاجئ',
             'Tornado' => 'إعصار'
         ];
-        
+
         // Check if we have an Arabic translation, otherwise return the original condition
         return $translations[$condition] ?? $condition;
     }
