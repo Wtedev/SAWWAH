@@ -26,4 +26,9 @@ class Country extends Model
     {
         return 'slug';
     }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }
