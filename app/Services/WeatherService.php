@@ -11,13 +11,53 @@ class WeatherService
     private $client;
     private $apiKey;
 
+    private $geoClient;
+
     public function __construct()
     {
         $this->client = new Client([
             'base_uri' => 'https://api.openweathermap.org/data/2.5/',
             'timeout'  => 5.0,
         ]);
+        $this->geoClient = new Client([
+            'base_uri' => 'https://api.openweathermap.org/geo/1.0/',
+            'timeout'  => 5.0,
+        ]);
         $this->apiKey = config('services.openweather.key');
+    }
+
+    private function getCityCoordinates(string $city, string $country)
+    {
+        try {
+            $response = $this->geoClient->get('direct', [
+                'query' => [
+                    'q' => "{$city},{$country}",
+                    'limit' => 1,
+                    'appid' => $this->apiKey
+                ]
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+            
+            if (!empty($data)) {
+                Log::info('Found city coordinates', [
+                    'city' => $city,
+                    'country' => $country,
+                    'coords' => ['lat' => $data[0]['lat'], 'lon' => $data[0]['lon']]
+                ]);
+                return $data[0];
+            }
+
+            Log::error('City not found in geocoding API', [
+                'city' => $city,
+                'country' => $country
+            ]);
+            return null;
+
+        } catch (\Exception $e) {
+            Log::error('Error getting city coordinates: ' . $e->getMessage());
+            return null;
+        }
     }
 
     public function getWeatherForCity(string $country, ?string $city = null)
@@ -25,6 +65,11 @@ class WeatherService
         $cityName = $city ?? config("countries.countries.{$country}.capital");
         
         try {
+            $cityInfo = $this->getCityCoordinates($cityName, $country);
+            if (!$cityInfo) {
+                return null;
+            }
+
             $response = $this->client->get('weather', [
                 'query' => [
                     'q' => $cityName,
@@ -54,21 +99,28 @@ class WeatherService
     public function getForecast(string $country, string $city, string $date)
     {
         try {
-            // Get city coordinates first
-            $cityData = $this->client->get('weather', [
-                'query' => [
-                    'q' => $city,
-                    'appid' => $this->apiKey,
-                ]
+            Log::info('Attempting to fetch weather forecast', [
+                'country' => $country,
+                'city' => $city,
+                'date' => $date
             ]);
-            
-            $cityInfo = json_decode($cityData->getBody(), true);
+
+            $cityInfo = $this->getCityCoordinates($city, $country);
+            if (!$cityInfo) {
+                return null;
+            }
+
+            Log::info('Using coordinates for forecast', [
+                'city' => $city,
+                'country' => $country,
+                'coords' => ['lat' => $cityInfo['lat'], 'lon' => $cityInfo['lon']]
+            ]);
             
             // Get forecast using coordinates
             $response = $this->client->get('forecast', [
                 'query' => [
-                    'lat' => $cityInfo['coord']['lat'],
-                    'lon' => $cityInfo['coord']['lon'],
+                    'lat' => $cityInfo['lat'],
+                    'lon' => $cityInfo['lon'],
                     'appid' => $this->apiKey,
                     'units' => 'metric',
                     'lang' => 'ar'

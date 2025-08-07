@@ -28,12 +28,51 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">تاريخ الذهاب:</label>
-                    <input type="date" name="departure_date" class="w-full rounded-lg border-gray-300 shadow-sm text-lg py-2 px-4">
+                    <input type="date" 
+                           name="departure_date" 
+                           class="w-full rounded-lg border-gray-300 shadow-sm text-lg py-2 px-4"
+                           min="{{ date('Y-m-d') }}"
+                           value="{{ request('departure_date') }}"
+                           onchange="updateReturnDateMin(this.value)">
+                    @error('departure_date')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">تاريخ العودة:</label>
-                    <input type="date" name="return_date" class="w-full rounded-lg border-gray-300 shadow-sm text-lg py-2 px-4">
+                    <input type="date" 
+                           name="return_date" 
+                           class="w-full rounded-lg border-gray-300 shadow-sm text-lg py-2 px-4"
+                           min="{{ request('departure_date') ?? date('Y-m-d') }}"
+                           value="{{ request('return_date') }}">
+                    @error('return_date')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
+
+                @push('scripts')
+                <script>
+                    function updateReturnDateMin(departureDate) {
+                        const returnDateInput = document.querySelector('input[name="return_date"]');
+                        returnDateInput.min = departureDate;
+                        
+                        // إذا كان تاريخ العودة أقل من تاريخ الذهاب الجديد، نحدثه
+                        if (returnDateInput.value && returnDateInput.value < departureDate) {
+                            returnDateInput.value = departureDate;
+                        }
+                    }
+
+                    // تعيين الحد الأدنى لتاريخ الذهاب عند تحميل الصفحة
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const today = new Date().toISOString().split('T')[0];
+                        const departureInput = document.querySelector('input[name="departure_date"]');
+                        const returnInput = document.querySelector('input[name="return_date"]');
+                        
+                        departureInput.min = today;
+                        returnInput.min = departureInput.value || today;
+                    });
+                </script>
+                @endpush
             </div>
 
             {{-- إعداد الميزانية --}}

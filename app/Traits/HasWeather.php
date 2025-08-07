@@ -10,11 +10,27 @@ trait HasWeather
 {
     public function getWeatherAttribute()
     {
+        if (!isset($this->country_id)) {
+            Log::info('Weather: missing country_id');
+            return null;
+        }
+
+        $country = \App\Models\Country::find($this->country_id);
+        if (!$country || !$country->code || !$country->capital) {
+            Log::info('Weather: invalid country data', [
+                'country' => $country ? $country->toArray() : 'null'
+            ]);
+            return null;
+        }
+
         return Cache::remember(
-            "weather_{$this->country}_{$this->city}",
+            "weather_{$country->code}_{$country->capital}",
             now()->addHour(),
-            function () {
-                return app(WeatherService::class)->getWeatherForCity($this->country, $this->city);
+            function () use ($country) {
+                return app(WeatherService::class)->getWeatherForCity(
+                    $country->code,
+                    $country->capital
+                );
             }
         );
     }
