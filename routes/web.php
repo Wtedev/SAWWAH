@@ -94,6 +94,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 
 // مسارات الدول
 Route::resource('countries', CountryController::class);
+Route::get('/update-weather', [CountryController::class, 'updateWeather'])->name('update.weather');
 
 // مسارات الفعاليات
 Route::controller(EventPublicController::class)->group(function () {
