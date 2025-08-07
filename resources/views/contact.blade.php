@@ -7,7 +7,7 @@
         <!-- النص العلوي في الشاشات الكبيرة -->
         <div class="w-full bg-white p-8 shadow-lg">
             <div class="mb-8 text-center">
-                <h1 class="text-4xl font-extrabold text-gray-900">تواصل معنا</h1>
+                <h1 class="text-4xl font-extrabold text-gray-900">تواصل معنا📞</h1>
             </div>
             <div class="space-y-4 text-center">
                 <p class="text-xl text-gray-700">نحن مستعدون لمساعدتك في أي وقت</p>

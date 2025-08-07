@@ -6,7 +6,7 @@
 
     <div class="mb-10 text-center">
         <h1 class="text-3xl font-bold text-gray-800">نظام الإقتراح الذكي</h1>
-        <p class="text-gray-500 mt-2">عبارة تسويقية من سطر عبارة تسويقية من سطر عبارة تسويقية من سطر</p>
+        <p class="text-gray-500 mt-2">دعنا نكتشف وجهتك التالية، حيث تنتظرك تجربة فريدة🔭</p>
     </div>
 
     <form method="POST" action="{{ route('suggest.store') }}" class="max-w-3xl mx-auto space-y-6">
