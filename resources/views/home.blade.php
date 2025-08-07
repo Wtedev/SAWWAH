@@ -46,38 +46,50 @@
 
     <div class="px-6 md:px-20 space-y-12">
 
-        <!-- الوجهات السعودية -->
-        <h3 class="text-2xl font-semibold text-pink-500">داخل السعودية </h3>
-        <div class="grid md:grid-cols-4 gap-6">
-            <x-destination-card name="جدة" img="jeddah.jpg" />
-            <x-destination-card name="المدينة" img="madinah.jpg" />
-            <x-destination-card name="الخبر" img="khobar.jpg" />
-            <x-destination-card name="العُلا" img="alula.jpg" />
-        </div>
-
-        <!-- الوجهات الخليجية -->
-        <h3 class="text-2xl font-semibold text-pink-500 mt-10">دول الخليج </h3>
-        <div class="grid md:grid-cols-4 gap-6">
-            <x-destination-card name="دبي" img="dubai.jpg" />
-            <x-destination-card name="أبو ظبي" img="abudhabi.jpg" />
-            <x-destination-card name="قطر - الدوحة" img="qatar.jpg" />
-            <x-destination-card name="عُمان - صلالة" img="oman.jpg" />
+        <!-- الوجهات الرائجة -->
+        <h3 class="text-2xl font-semibold text-pink-500">الوجهات الرائجة</h3>
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            @forelse($popularCountries as $country)
+            <a href="{{ route('countries.show', $country->slug) }}" class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition transform hover:-translate-y-1">
+                <div class="h-48 overflow-hidden">
+                    <img src="{{ asset('uploads/' . $country->image) }}" alt="{{ $country->name }}" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h4 class="font-bold text-lg mb-1">{{ $country->name }}</h4>
+                    <p class="text-gray-500 text-sm line-clamp-2">{{ $country->description }}</p>
+                    @if(isset($country->weather_info) && isset($country->weather_info->temp))
+                    <div class="flex items-center mt-2 text-sm text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-pink-500 ml-1" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15 13V5c0-1.66-1.34-3-3-3S9 3.34 9 5v8c-1.21.91-2 2.37-2 4 0 2.76 2.24 5 5 5s5-2.24 5-5c0-1.63-.79-3.09-2-4zm-4-8c0-.55.45-1 1-1s1 .45 1 1h-2z"/>
+                        </svg>
+                        <span>{{ $country->weather_info->temp }}° C</span>
+                    </div>
+                    @endif
+                </div>
+            </a>
+            @empty
+            <div class="col-span-4 text-center py-8 text-gray-500">
+                لا توجد وجهات متاحة حالياً
+            </div>
+            @endforelse
         </div>
 
     </div>
 
     <div class="text-center mt-10">
-        <a href="/places" class="bg-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-pink-600 transition">
+        <a href="{{ route('countries.index') }}" class="bg-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-pink-600 transition">
             استعرض كل الوجهات
         </a>
     </div>
 </section>
 
-<!-- زر دعوة لتجربة النظام الذكي -->
+
+{{-- موجود زر له حذفته اعتقدت مكرر (قابل للترجيع اذا مهم)   --}}
+{{-- <!-- زر دعوة لتجربة النظام الذكي -->
 <div class="text-center mt-10">
     <a href="/suggest" class="inline-block bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full text-lg font-bold shadow animate-bounce">
         جرب نظام الاقتراح الذكي الآن!
     </a>
-</div>
+</div> --}}
 
 @endsection
