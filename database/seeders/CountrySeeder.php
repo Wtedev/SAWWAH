@@ -15,7 +15,7 @@ class CountrySeeder extends Seeder
                 'slug' => 'saudi-arabia',
                 'description' => 'المملكة العربية السعودية، موطن الحرمين الشريفين ووجهة سياحية متنوعة تجمع بين التراث والحداثة.',
                 'currency' => 'ريال سعودي',
-                'image' => 'saudi-outline.png',
+                'image' => 'riyadh.jpg',
                 'capital' => 'Riyadh',
                 'capital_ar' => 'الرياض',
                 'weather_info' => json_encode(['temp' => 35, 'condition' => 'مشمس']),
