@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // ✅ تسجيل الدخول والتسجيل
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
 
@@ -60,6 +60,7 @@ Route::controller(EventPublicController::class)->group(function () {
 // Route::view('/trip-planner', 'trip-planner.index')->name('trip-planner');
 // تعديل ربط الكنترولر -> lama 
 use App\Http\Controllers\TripPlannerController;
+
 Route::get('/trip-planner', [TripPlannerController::class, 'index'])->name('trip-planner');
 
 
@@ -137,7 +138,6 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin/events')->name('admin.eve
     Route::get('/{id}/edit', [EventAdminController::class, 'edit'])->name('edit');
     Route::put('/{id}', [EventAdminController::class, 'update'])->name('update');
     Route::delete('/{id}', [EventAdminController::class, 'destroy'])->name('destroy');
-
 });
 
 
@@ -152,6 +152,3 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin/events')->name('admin.eve
 Route::prefix('admin')->group(function () {
     Route::resource('countries', CountryAdminController::class)->names('admin.countries');
 });
-
-
-

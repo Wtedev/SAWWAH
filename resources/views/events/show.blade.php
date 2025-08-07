@@ -1,3 +1,4 @@
+
 @extends('layout.app')
 
 @section('title', $event->name . ' - سواح')
@@ -7,9 +8,7 @@
     {{-- صورة الغلاف --}}
     <div class="relative h-96">
         <div class="absolute inset-0">
-            <img src="{{ asset('images/' . $event->image) }}" 
-                 alt="{{ $event->name }}" 
-                 class="w-full h-full object-cover">
+            <img src="{{ asset('images/' . $event->image) }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         </div>
         <div class="relative h-full flex flex-col justify-center items-center text-white text-center px-4">
@@ -38,7 +37,7 @@
                                     <dd class="mt-1 text-lg font-semibold text-gray-900">
                                         {{ $event->start_date->format('Y/m/d') }}
                                         @if($event->end_date)
-                                            - {{ $event->end_date->format('Y/m/d') }}
+                                        - {{ $event->end_date->format('Y/m/d') }}
                                         @endif
                                     </dd>
                                 </div>
@@ -112,8 +111,7 @@
                     <div class="p-6">
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">{{ $event->country->name }}</h2>
                         <p class="text-gray-600 mb-4">{{ $event->country->description }}</p>
-                        <a href="{{ route('countries.show', $event->country) }}" 
-                           class="inline-block bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors">
+                        <a href="{{ route('countries.show', $event->country) }}" class="inline-block bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors">
                             اكتشف الوجهة
                         </a>
                     </div>
@@ -129,9 +127,7 @@
                             <a href="{{ route('events.show', $relatedEvent) }}" class="block group">
                                 <div class="flex items-center space-x-4 rtl:space-x-reverse">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ asset('images/' . $relatedEvent->image) }}" 
-                                             alt="{{ $relatedEvent->name }}"
-                                             class="w-16 h-16 rounded-lg object-cover">
+                                        <img src="{{ asset('images/' . $relatedEvent->image) }}" alt="{{ $relatedEvent->name }}" class="w-16 h-16 rounded-lg object-cover">
                                     </div>
                                     <div>
                                         <h3 class="text-lg font-semibold text-gray-900 group-hover:text-pink-600">
@@ -150,26 +146,16 @@
                 @endif
             </div>
         </div>
-    </div>
-</div>
-@endsection
-    </p>
-    
-    <p class="text-gray-700 mb-2">
-        <strong>من:</strong> {{ $event->start_date ?? '—' }}
-        <strong>إلى:</strong> {{ $event->end_date ?? '—' }}
-    </p>
-
-    <div class="mt-6">
-        <p class="text-lg leading-relaxed text-gray-800">
-            {{ $event->description ?? 'لا توجد تفاصيل إضافية للفعالية.' }}
-        </p>
-    </div>
-
-    <div class="mt-8">
-        <a href="{{ route('events.index') }}" class="inline-block px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
-            ← الرجوع للفعاليات
-        </a>
+        
+        {{-- زر الرجوع --}}
+        <div class="mt-8">
+            <a href="{{ route('events.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 rtl:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+                الرجوع للفعاليات
+            </a>
+        </div>
     </div>
 </div>
 @endsection
