@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
 
         // إضافة البيانات الأخرى
         $this->call(CountrySeeder::class);
-        $this->call(UpdateCountryDataSeeder::class);
         $this->call(EventSeeder::class);
     }
 }
