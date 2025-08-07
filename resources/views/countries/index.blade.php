@@ -16,7 +16,7 @@
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 flex flex-col h-full">
             <div class="flex flex-col md:flex-row-reverse flex-1">
                 <div class="md:w-1/2 p-6 flex items-center justify-center">
-                    <img src="{{asset('uploads/'.$countrie->image)}}" alt="صورة {{$countrie->name}}" class="rounded-xl shadow-md object-cover h-48 w-full">
+                    <img src="{{asset('images/'.$countrie->image)}}" alt="صورة {{$countrie->name}}" class="rounded-xl shadow-md object-cover h-48 w-full">
                 </div>
                 <div class="md:w-1/2 p-6 text-right">
                     <h2 class="text-xl font-bold text-gray-900 mb-2">{{$countrie->name}}</h2>

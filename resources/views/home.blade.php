@@ -52,7 +52,7 @@
             @forelse($popularCountries as $country)
             <a href="{{ route('countries.show', $country->slug) }}" class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition transform hover:-translate-y-1">
                 <div class="h-48 overflow-hidden">
-                    <img src="{{ asset('uploads/' . $country->image) }}" alt="{{ $country->name }}" class="w-full h-full object-cover">
+                    <img src="{{ asset('images/' . $country->image) }}" alt="{{ $country->name }}" class="w-full h-full object-cover">
                 </div>
                 <div class="p-4">
                     <h4 class="font-bold text-lg mb-1">{{ $country->name }}</h4>
