@@ -3,10 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasWeather;
 
 class Country extends Model
 {
-    protected  $fillable = ['name','description','currency','weather_info','image','daily_budget','slug'];
+    use HasWeather;
+    protected $fillable = [
+        'name',
+        'code',
+        'description',
+        'currency',
+        'weather_info',
+        'image',
+        'daily_budget',
+        'slug',
+        'capital'
+    ];
 
     protected $casts = ['weather_info' => 'object'];
 

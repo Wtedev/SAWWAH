@@ -15,11 +15,22 @@ class TripPlannerController extends Controller
 
         // التحقق من وجود التواريخ في الطلب
         $tripDays = null;
-        if ($request->has('departure_date') && $request->has('return_date') && $request->departure_date && $request->return_date) {
+        $trip = null;
+        if ($request->has('departure_date') && $request->has('return_date') && 
+            $request->has('destination') && $request->departure_date && 
+            $request->return_date && $request->destination) {
+            
             // إذا كانت التواريخ موجودة، نحسب الفارق بينهما
             $departureDate = Carbon::parse($request->departure_date);
             $returnDate = Carbon::parse($request->return_date);
-            $tripDays = $departureDate->diffInDays($returnDate); // حساب الفرق بين التواريخ
+            $tripDays = $departureDate->diffInDays($returnDate);
+
+            // إنشاء كائن Trip مؤقت لجلب توقعات الطقس
+            $trip = new \App\Models\Trip([
+                'country_id' => $request->destination,
+                'start_date' => $departureDate,
+                'end_date' => $returnDate
+            ]);
         }
 
         // جمع الميزانية
@@ -29,6 +40,14 @@ class TripPlannerController extends Controller
         $totalBudget = $transportBudget + $foodBudget + $entertainmentBudget;
 
         // تمرير البيانات إلى الـ View
-        return view('trip-planner.index', compact('countries', 'tripDays', 'transportBudget', 'foodBudget', 'entertainmentBudget', 'totalBudget'));
+        return view('trip-planner.index', compact(
+            'countries',
+            'tripDays',
+            'transportBudget',
+            'foodBudget',
+            'entertainmentBudget',
+            'totalBudget',
+            'trip'
+        ));
     }
 }

@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'lama@example.com',
             'password' => Hash::make('12345678'),
         ]);
+
+        $this->call(CountrySeeder::class);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Services;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Carbon;
 
 class WeatherService
 {
@@ -20,75 +20,87 @@ class WeatherService
         $this->apiKey = config('services.openweather.key');
     }
 
-    public function getWeatherForCity(string $country)
+    public function getWeatherForCity(string $country, ?string $city = null)
     {
-        // Define capital cities for each country
-        $capitals = [
-            'SA' => 'Riyadh',
-            'AE' => 'Abu Dhabi',
-            'BH' => 'Manama',
-            'KW' => 'Kuwait City',
-            'OM' => 'Muscat',
-            'QA' => 'Doha',
-        ];
-
-        Log::info('Getting weather for country: ' . $country);
-
-        $city = $capitals[$country] ?? null;
-        if (!$city) {
-            Log::info('No city found for country: ' . $country);
-            return null;
-        }
-
-        Log::info('Found city: ' . $city);
-
-        // Cache key based on city name and current hour
-        $cacheKey = "weather_{$city}_" . now()->format('Y-m-d-H');
-
-        return Cache::remember($cacheKey, 3600, function () use ($city) {
-            try {
-                Log::info('Making API request for city: ' . $city);
-
-                $query = [
-                    'q' => $city,
+        $cityName = $city ?? config("countries.countries.{$country}.capital");
+        
+        try {
+            $response = $this->client->get('weather', [
+                'query' => [
+                    'q' => $cityName,
                     'appid' => $this->apiKey,
                     'units' => 'metric',
                     'lang' => 'ar'
-                ];
-                
-                Log::info('API Request with parameters:', [
-                    'city' => $city,
-                    'apiKey' => $this->apiKey
-                ]);
-                
-                $response = $this->client->get('weather', [
-                    'query' => $query
-                ]);                $data = json_decode($response->getBody(), true);
-                Log::info('API Response:', $data);
+                ]
+            ]);
 
-                if (!isset($data['main']) || !isset($data['weather'][0])) {
-                    Log::error('Invalid API response format:', $data);
-                    return null;
+            $data = json_decode($response->getBody(), true);
+
+            return [
+                'temp' => round($data['main']['temp']),
+                'feels_like' => round($data['main']['feels_like']),
+                'humidity' => $data['main']['humidity'],
+                'wind_speed' => round($data['wind']['speed'] * 3.6),
+                'description' => $data['weather'][0]['description'],
+                'icon' => $data['weather'][0]['icon'],
+            ];
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching weather data: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    public function getForecast(string $country, string $city, string $date)
+    {
+        try {
+            // Get city coordinates first
+            $cityData = $this->client->get('weather', [
+                'query' => [
+                    'q' => $city,
+                    'appid' => $this->apiKey,
+                ]
+            ]);
+            
+            $cityInfo = json_decode($cityData->getBody(), true);
+            
+            // Get forecast using coordinates
+            $response = $this->client->get('forecast', [
+                'query' => [
+                    'lat' => $cityInfo['coord']['lat'],
+                    'lon' => $cityInfo['coord']['lon'],
+                    'appid' => $this->apiKey,
+                    'units' => 'metric',
+                    'lang' => 'ar'
+                ]
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+            
+            // Find forecast for specific date
+            $targetDate = Carbon::parse($date)->startOfDay();
+            
+            foreach ($data['list'] as $forecast) {
+                $forecastDate = Carbon::createFromTimestamp($forecast['dt'])->startOfDay();
+                
+                if ($forecastDate->equalTo($targetDate)) {
+                    return [
+                        'temp' => round($forecast['main']['temp']),
+                        'feels_like' => round($forecast['main']['feels_like']),
+                        'humidity' => $forecast['main']['humidity'],
+                        'wind_speed' => round($forecast['wind']['speed'] * 3.6),
+                        'description' => $forecast['weather'][0]['description'],
+                        'icon' => $forecast['weather'][0]['icon'],
+                        'date' => $forecastDate->format('Y-m-d'),
+                    ];
                 }
-
-                $result = [
-                    'temp' => round($data['main']['temp']),
-                    'feels_like' => round($data['main']['feels_like']),
-                    'humidity' => $data['main']['humidity'],
-                    'wind_speed' => round($data['wind']['speed'] * 3.6), // تحويل من م/ث إلى كم/س
-                    'description' => $data['weather'][0]['description'],
-                    'icon' => $data['weather'][0]['icon'],
-                ];
-
-                Log::info('Processed weather data:', $result);
-                return $result;
-            } catch (\Exception $e) {
-                Log::error('Error fetching weather data: ' . $e->getMessage(), [
-                    'city' => $city,
-                    'trace' => $e->getTraceAsString()
-                ]);
-                return null;
             }
-        });
+
+            return null;
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching forecast data: ' . $e->getMessage());
+            return null;
+        }
     }
 }
