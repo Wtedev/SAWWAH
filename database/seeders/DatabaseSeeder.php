@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CountrySeeder::class);
         $this->call(UpdateCountryDataSeeder::class);
+        $this->call(EventSeeder::class);
     }
 }

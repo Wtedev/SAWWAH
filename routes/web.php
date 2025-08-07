@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\EventPublicController;
 use App\Http\Controllers\Admin\EventAdminController;
 
 // ✅ الصفحة الرئيسية
@@ -46,13 +47,14 @@ require __DIR__.'/auth.php';
 
 
 
+// مسارات الدول
 Route::resource('countries', CountryController::class);
 
-
-// 🎉 أهم الفعاليات
-Route::get('/events', function () {
-    return view('events.index');
-})->name('events.index');
+// مسارات الفعاليات
+Route::controller(EventPublicController::class)->group(function () {
+    Route::get('/events', 'index')->name('events.index');          // صفحة الفعاليات الرئيسية
+    Route::get('/events/{event}', 'show')->name('events.show');    // صفحة تفاصيل الفعالية
+});
 
 // 🧭 مخطط الرحلات
 // Route::view('/trip-planner', 'trip-planner.index')->name('trip-planner');

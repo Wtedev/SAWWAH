@@ -8,15 +8,27 @@ class Event extends Model
 {
     protected $fillable = [
         'country_id',
-        'title',
+        'name',
         'slug',
         'description',
         'city',
+        'location',
+        'image',
         'start_date',
         'end_date',
-        'date',
-        'location',
-        'image'
+        'is_featured',
+        'capacity',
+        'price',
+        'category',
+        'tags'
+    ];
+
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'is_featured' => 'boolean',
+        'price' => 'decimal:2',
+        'tags' => 'array'
     ];
 
     public function country()

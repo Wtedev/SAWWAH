@@ -6,20 +6,32 @@ use App\Models\Event;
 
 class EventPublicController extends Controller
 {
-    // عرض جميع الفعاليات
     public function index()
     {
-        $events = Event::with('country')->latest()->get();
-        return view('event.index', compact('events'));
+        $featuredEvents = Event::with('country')
+            ->where('is_featured', true)
+            ->orderBy('start_date')
+            ->take(6)
+            ->get();
+
+        $upcomingEvents = Event::with('country')
+            ->where('start_date', '>=', now())
+            ->orderBy('start_date')
+            ->take(12)
+            ->get();
+
+        return view('events.index', compact('featuredEvents', 'upcomingEvents'));
     }
 
-    // عرض الفعاليات حسب المدينه
-    public function filterByCountry($country)
+    public function show(Event $event)
     {
-        $events = Event::whereHas('country', function ($query) use ($country) {
-            $query->where('name', $country);
-        })->get();
+        $event->load('country');
+        $relatedEvents = Event::with('country')
+            ->where('country_id', $event->country_id)
+            ->where('id', '!=', $event->id)
+            ->take(3)
+            ->get();
 
-        return view('event.index', compact('events'));
+        return view('events.show', compact('event', 'relatedEvents'));
     }
 }

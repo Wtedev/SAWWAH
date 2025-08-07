@@ -1,17 +1,21 @@
 @extends('layout.app')
 
-@section('title', 'فعاليات 2025 حسب المدينة')
+@section('title', 'الفعاليات - سواح')
 
 @section('content')
 <style>
     .event-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: all 0.3s ease;
         cursor: pointer;
+        background: white;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .event-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
     }
 </style>
 
@@ -23,83 +27,56 @@
 <div class="max-w-md mx-auto mb-6">
   <select id="citySelect" onchange="filterEvents()" class="w-full border-gray-300 rounded-lg p-3">
     <option value="all">جميع المدن</option>
-    <option value="jeddah">جدة</option>
-    <option value="riyadh">الرياض</option>
-    <option value="abha">أبها</option>
-    <option value="alula">العُلا</option>
-    <option value="khobar">الخبر</option>
+    @foreach($upcomingEvents->pluck('city')->unique() as $city)
+      <option value="{{ $city }}">{{ $city }}</option>
+    @endforeach
   </select>
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4" id="eventsGrid">
-  <!-- جدة -->
-  <div class="event-card" data-city="jeddah">
-    <img src="{{ asset('images/fiba.jpg') }}" alt="FIBA Asia Cup" class="h-48 w-full object-cover rounded-t-xl">
-    <div class="bg-white p-4 rounded-b-xl shadow">
-      <h3 class="text-xl font-bold text-pink-600">FIBA Asia Cup 2025</h3>
-      <p class="text-gray-600">5–17 أغسطس | جدة - بطولة آسيا لكرة السلة</p>
+  @foreach($upcomingEvents as $event)
+    <div class="event-card relative" data-city="{{ $event->city }}">
+      <div class="relative h-48">
+        <img src="{{ asset('images/' . $event->image) }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+      </div>
+      <div class="p-5 relative">
+        <h3 class="text-xl font-bold text-pink-600 mb-3">{{ $event->name }}</h3>
+        <div class="space-y-2 mb-8">
+          <div class="flex items-center text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span>{{ $event->start_date->format('j F') }} - {{ $event->end_date ? $event->end_date->format('j F') : '' }}</span>
+          </div>
+          <div class="flex items-center text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>{{ $event->city }} - {{ $event->location }}</span>
+          </div>
+          @if($event->cost)
+          <div class="flex items-center text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span>{{ $event->cost }}</span>
+          </div>
+          @endif
+          <p class="text-gray-600 line-clamp-2">{{ $event->description }}</p>
+        </div>
+        <div class="absolute left-5 bottom-5">
+          <div class="flex items-center text-pink-600">
+            <span class="text-sm ml-1">عرض التفاصيل</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="event-card" data-city="jeddah">
-    <img src="{{ asset('images/snooker.jpg') }}" alt="Snooker Masters" class="h-48 w-full object-cover rounded-t-xl">
-    <div class="bg-white p-4 rounded-b-xl shadow">
-      <h3 class="text-xl font-bold text-pink-600">Snooker Masters 2025</h3>
-      <p class="text-gray-600">8–16 أغسطس | جدة - بطولة السنوكر الدولية</p>
-    </div>
-  </div>
-
-  <!-- الرياض -->
-  <div class="event-card" data-city="riyadh">
-    <img src="{{ asset('images/esports.jpg') }}" alt="Esports World Cup" class="h-48 w-full object-cover rounded-t-xl">
-    <div class="bg-white p‑4 rounded-b-xl shadow">
-      <h3 class="text-xl font-bold text-pink-600">Esports World Cup 2025</h3>
-      <p class="text-gray-600">7 يوليو – 24 أغسطس | الرياض - أهم حدث الرياضات الإلكترونية</p>
-    </div>
-  </div>
-  <div class="event-card" data-city="riyadh">
-    <img src="{{ asset('images/pubg.jpg') }}" alt="PUBG Mobile WC" class="h‑48 w‑full object-cover rounded‑t‑xl">
-    <div class="bg-white p-4 rounded-b-xl shadow">
-      <h3 class="text-xl font-bold text-pink-600">PUBG Mobile World Cup</h3>
-      <p class="text-gray-600">25 يوليو – 3 أغسطس | الرياض - بطولة PUBG الإلكترونية‎</p>
-    </div>
-  </div>
-  <div class="event-card" data-city="riyadh">
-    <img src="{{ asset('images/comedy.jpg') }}" alt="Comedy Festival" class="h‑48 w‑full object-cover rounded‑t‑xl">
-    <div class="bg-white p-4 rounded-b-xl shadow">
-      <h3 class="text-xl font-bold text-pink-600">مهرجان الرياض للكوميديا</h3>
-      <p class="text-gray-600">26 سبتمبر – 9 أكتوبر | الرياض - فعاليات كوميدية عالمية</p>
-    </div>
-  </div>
-
-  <!-- أبها -->
-  <div class="event-card" data-city="abha">
-    <img src="{{ asset('images/soudah.jpg') }}" alt="Soudah Season" class="h‑48 w‑full object-cover rounded‑t‑xl">
-    <div class="bg-white p-4 rounded-b-xl shadow">
-      <h3 class="text-xl font-bold text-pink-600">موسم السودة 2025</h3>
-      <p class="text-gray-600">فعاليات جبلية في أبها | 15 يوليو – 30 أغسطس</p>
-    </div>
-  </div>
-
-  <!-- العُلا -->
- <!-- العُلا -->
-<div class="event-card" data-city="alula">
-    <img src="{{ asset('images/lahib-race.jpg') }}" alt="سباق لهيب العُلا" class="h-48 w-full object-cover rounded-t-xl">
-    <div class="bg-white p-4 rounded-b-xl shadow">
-      <h3 class="text-xl font-bold text-pink-600">سباق لهيب العُلا 2025</h3>
-      <p class="text-gray-600">سباق صحراوي للدراجات النارية والسيارات | العُلا - أكتوبر 2025</p>
-    </div>
-</div>
-
-
-
- <!-- الخبر (إثراء) -->
-<div class="event-card" data-city="khobar">
-  <img src="{{ asset('images/ithra.jpg') }}" alt="فعاليات إثراء" class="h-48 w-full object-cover rounded-t-xl">
-  <div class="bg-white p-4 rounded-b-xl shadow">
-    <h3 class="text-xl font-bold text-pink-600">إثراء - الموسم الثقافي 2025</h3>
-    <p class="text-gray-600">عروض تفاعلية، معارض فنية، ورش عمل ثقافية | مركز إثراء، الظهران</p>
-  </div>
-</div>
+  @endforeach
 
 
 </div>

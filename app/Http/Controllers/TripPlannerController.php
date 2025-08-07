@@ -12,7 +12,7 @@ class TripPlannerController extends Controller
     public function index(Request $request)
     {
         // جلب كل الدول من قاعدة البيانات
-        $countries = Country::all(); 
+        $countries = Country::all();
 
         // التحقق من وجود التواريخ في الطلب
         $tripDays = null;
@@ -35,7 +35,7 @@ class TripPlannerController extends Controller
                 'departure_date.after_or_equal' => 'تاريخ الذهاب يجب أن يكون اليوم أو بعد اليوم',
                 'return_date.after_or_equal' => 'تاريخ العودة يجب أن يكون مساوياً أو بعد تاريخ الذهاب'
             ]);
-            
+
             // إذا كانت التواريخ موجودة وصالحة، نحسب الفارق بينهما
             $departureDate = Carbon::parse($validated['departure_date']);
             $returnDate = Carbon::parse($validated['return_date']);

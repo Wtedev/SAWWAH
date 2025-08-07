@@ -9,13 +9,24 @@ return new class extends Migration {
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique(); // ✅ slug من البداية
+            $table->foreignId('country_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->string('city')->nullable();
-            $table->date('start_date')->nullable();
+            $table->string('location')->nullable();
+            $table->string('image')->nullable();
+            $table->date('start_date');
             $table->date('end_date')->nullable();
+            $table->boolean('is_featured')->default(false);
+            $table->integer('capacity')->nullable();
+            $table->decimal('price', 10, 2)->nullable();
+            $table->string('category')->nullable();
+            $table->json('tags')->nullable();
             $table->timestamps();
+
+            $table->index(['start_date', 'end_date']);
+            $table->index('is_featured');
         });
     }
 

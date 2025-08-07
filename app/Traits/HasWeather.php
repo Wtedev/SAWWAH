@@ -64,7 +64,7 @@ trait HasWeather
             now()->addHour(),
             function () use ($country) {
                 $forecast = app(WeatherService::class)->getForecast(
-                    $country->code, 
+                    $country->code,
                     $country->capital,
                     $this->start_date
                 );

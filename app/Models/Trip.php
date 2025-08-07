@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Trip extends Model
 {
     use HasFactory, HasWeather;
-    
+
     protected $dates = [
         'start_date',
         'end_date'
@@ -35,5 +35,4 @@ class Trip extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

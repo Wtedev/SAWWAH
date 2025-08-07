@@ -18,35 +18,25 @@
                     <select name="destination" class="w-full rounded-lg border-gray-300 shadow-sm text-lg py-2 px-4">
                         <option value="">اختر الوجهة</option>
                         @foreach($countries as $country)
-                            <option value="{{ $country->id }}" 
-                                    {{ request('destination') == $country->id ? 'selected' : '' }}>
-                                {{ $country->name }}
-                            </option>
+                        <option value="{{ $country->id }}" {{ request('destination') == $country->id ? 'selected' : '' }}>
+                            {{ $country->name }}
+                        </option>
                         @endforeach
                     </select>
 
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">تاريخ الذهاب:</label>
-                    <input type="date" 
-                           name="departure_date" 
-                           class="w-full rounded-lg border-gray-300 shadow-sm text-lg py-2 px-4"
-                           min="{{ date('Y-m-d') }}"
-                           value="{{ request('departure_date') }}"
-                           onchange="updateReturnDateMin(this.value)">
+                    <input type="date" name="departure_date" class="w-full rounded-lg border-gray-300 shadow-sm text-lg py-2 px-4" min="{{ date('Y-m-d') }}" value="{{ request('departure_date') }}" onchange="updateReturnDateMin(this.value)">
                     @error('departure_date')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">تاريخ العودة:</label>
-                    <input type="date" 
-                           name="return_date" 
-                           class="w-full rounded-lg border-gray-300 shadow-sm text-lg py-2 px-4"
-                           min="{{ request('departure_date') ?? date('Y-m-d') }}"
-                           value="{{ request('return_date') }}">
+                    <input type="date" name="return_date" class="w-full rounded-lg border-gray-300 shadow-sm text-lg py-2 px-4" min="{{ request('departure_date') ?? date('Y-m-d') }}" value="{{ request('return_date') }}">
                     @error('return_date')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -55,7 +45,7 @@
                     function updateReturnDateMin(departureDate) {
                         const returnDateInput = document.querySelector('input[name="return_date"]');
                         returnDateInput.min = departureDate;
-                        
+
                         // إذا كان تاريخ العودة أقل من تاريخ الذهاب الجديد، نحدثه
                         if (returnDateInput.value && returnDateInput.value < departureDate) {
                             returnDateInput.value = departureDate;
@@ -67,10 +57,11 @@
                         const today = new Date().toISOString().split('T')[0];
                         const departureInput = document.querySelector('input[name="departure_date"]');
                         const returnInput = document.querySelector('input[name="return_date"]');
-                        
+
                         departureInput.min = today;
                         returnInput.min = departureInput.value || today;
                     });
+
                 </script>
                 @endpush
             </div>
@@ -95,9 +86,7 @@
                 <h3 class="text-xl font-bold text-gray-800 mb-4">الطقس المتوقع</h3>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <img src="https://openweathermap.org/img/wn/{{ $forecast['icon'] }}@2x.png" 
-                             alt="Weather Icon" 
-                             class="w-16 h-16">
+                        <img src="https://openweathermap.org/img/wn/{{ $forecast['icon'] }}@2x.png" alt="Weather Icon" class="w-16 h-16">
                         <div class="mr-4">
                             <div class="text-3xl font-bold text-gray-900">{{ $forecast['temp'] }}°C</div>
                             <div class="text-gray-600">{{ $forecast['description'] }}</div>
@@ -143,4 +132,3 @@
     </div>
 </form>
 @endsection
-

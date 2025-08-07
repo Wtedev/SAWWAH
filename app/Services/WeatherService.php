@@ -38,7 +38,7 @@ class WeatherService
             ]);
 
             $data = json_decode($response->getBody(), true);
-            
+
             if (!empty($data)) {
                 Log::info('Found city coordinates', [
                     'city' => $city,
@@ -53,7 +53,6 @@ class WeatherService
                 'country' => $country
             ]);
             return null;
-
         } catch (\Exception $e) {
             Log::error('Error getting city coordinates: ' . $e->getMessage());
             return null;
@@ -63,7 +62,7 @@ class WeatherService
     public function getWeatherForCity(string $country, ?string $city = null)
     {
         $cityName = $city ?? config("countries.countries.{$country}.capital");
-        
+
         try {
             $cityInfo = $this->getCityCoordinates($cityName, $country);
             if (!$cityInfo) {
@@ -89,7 +88,6 @@ class WeatherService
                 'description' => $data['weather'][0]['description'],
                 'icon' => $data['weather'][0]['icon'],
             ];
-
         } catch (\Exception $e) {
             Log::error('Error fetching weather data: ' . $e->getMessage());
             return null;
@@ -115,7 +113,7 @@ class WeatherService
                 'country' => $country,
                 'coords' => ['lat' => $cityInfo['lat'], 'lon' => $cityInfo['lon']]
             ]);
-            
+
             // Get forecast using coordinates
             $response = $this->client->get('forecast', [
                 'query' => [
@@ -128,13 +126,13 @@ class WeatherService
             ]);
 
             $data = json_decode($response->getBody(), true);
-            
+
             // Find forecast for specific date
             $targetDate = Carbon::parse($date)->startOfDay();
-            
+
             foreach ($data['list'] as $forecast) {
                 $forecastDate = Carbon::createFromTimestamp($forecast['dt'])->startOfDay();
-                
+
                 if ($forecastDate->equalTo($targetDate)) {
                     return [
                         'temp' => round($forecast['main']['temp']),
@@ -149,7 +147,6 @@ class WeatherService
             }
 
             return null;
-
         } catch (\Exception $e) {
             Log::error('Error fetching forecast data: ' . $e->getMessage());
             return null;
