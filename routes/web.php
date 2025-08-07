@@ -25,6 +25,9 @@ Route::get('/about', function () {
 // ✅ صفحة "تواصل معنا"
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
+// تحديث الطقس
+Route::post('/update-weather', [ProfileController::class, 'updateWeather'])->name('profile.updateWeather');
+
 // ✅ صفحة عرض جميع الرحلات
 Route::get('/trips', [TripController::class, 'index'])->name('trips.index');
 

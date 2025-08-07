@@ -7,14 +7,15 @@
     <div class="bg-white shadow-xl rounded-2xl p-6 md:p-10 w-full max-w-4xl mx-auto">
         <!-- صورة المستخدم والمعلومات الأساسية -->
         <div class="flex flex-col items-center mb-8 text-center">
-            <div class="relative w-32 h-32 mb-4">
-                <img class="w-full h-full rounded-full object-cover border-4 border-pink-500 shadow-md" src="{{ Auth::user()->profile_photo_url ?? 'https://placehold.co/128x128/fecdd3/e5e7eb?text=صورة+المستخدم' }}" alt="{{ Auth::user()->name }}">
-                <button class="absolute bottom-0 right-0 bg-pink-500 text-white p-2 rounded-full shadow-lg hover:bg-pink-600 transition">
-                    <i class="fas fa-camera"></i>
-                </button>
+            <div class="w-32 h-32 mb-4">
+                <img class="w-full h-full rounded-full object-cover border-4 border-pink-500 shadow-md" src="{{ Auth::user()->profile_photo_url ?? asset('images/default-user.svg') }}" alt="{{ Auth::user()->name }}">
             </div>
             <h2 class="text-3xl font-bold text-gray-900 mb-1">{{ Auth::user()->name }}</h2>
-            <p class="text-gray-600 text-lg">ملفي الشخصي</p>
+            <p class="text-gray-600 text-lg">
+                <span class="inline-flex items-center bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm font-medium">
+                    <i class="fas fa-user-circle mr-1"></i> ملفي الشخصي
+                </span>
+            </p>
         </div>
 
         <hr class="border-gray-200 mb-8">
@@ -79,74 +80,91 @@
             </div>
 
             <!-- معلومات الطقس الحالية -->
-            <div class="flex flex-col bg-gray-50 p-4 rounded-xl shadow-sm">
-                <label class="text-gray-700 font-semibold mb-4">حالة الطقس</label>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col md:flex-row items-start bg-gray-50 p-4 rounded-xl shadow-sm hover:bg-gray-100 transition">
+                <label class="w-full md:w-1/4 text-gray-700 font-semibold mb-2 md:mb-0">حالة الطقس</label>
+                <div class="flex-1 w-full md:w-3/4 weather-container">
                     @if($weatherData = Auth::user()->weather_data)
-                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                        <img src="https://openweathermap.org/img/wn/{{ $weatherData['icon'] }}@2x.png" alt="Weather Icon" class="w-12 h-12">
-                        <div>
-                            <div class="text-2xl font-bold">{{ $weatherData['temp'] }}°C</div>
-                            <div class="text-gray-600">{{ $weatherData['description'] }}</div>
+                    <div class="flex flex-col md:flex-row items-center gap-4">
+                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                            <img src="https://openweathermap.org/img/wn/{{ $weatherData['icon'] }}@2x.png" alt="Weather Icon" class="w-12 h-12">
+                            <div>
+                                <div class="text-2xl font-bold">{{ $weatherData['temp'] }}°C</div>
+                                <div class="text-gray-600">{{ $weatherData['description'] }}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="bg-white p-2 rounded-lg">
-                            <div class="text-gray-600 text-sm">الإحساس</div>
-                            <div class="font-semibold">{{ $weatherData['feels_like'] }}°C</div>
-                        </div>
-                        <div class="bg-white p-2 rounded-lg">
-                            <div class="text-gray-600 text-sm">الرطوبة</div>
-                            <div class="font-semibold">{{ $weatherData['humidity'] }}%</div>
-                        </div>
-                        <div class="bg-white p-2 rounded-lg">
-                            <div class="text-gray-600 text-sm">سرعة الرياح</div>
-                            <div class="font-semibold">{{ $weatherData['wind_speed'] }} كم/س</div>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                            <div class="bg-white p-2 rounded-lg shadow-sm text-center">
+                                <div class="text-gray-600 text-sm">الإحساس</div>
+                                <div class="font-semibold">{{ $weatherData['feels_like'] }}°C</div>
+                            </div>
+                            <div class="bg-white p-2 rounded-lg shadow-sm text-center">
+                                <div class="text-gray-600 text-sm">الرطوبة</div>
+                                <div class="font-semibold">{{ $weatherData['humidity'] }}%</div>
+                            </div>
+                            <div class="bg-white p-2 rounded-lg shadow-sm text-center">
+                                <div class="text-gray-600 text-sm">سرعة الرياح</div>
+                                <div class="font-semibold">{{ $weatherData['wind_speed'] }} كم/س</div>
+                            </div>
                         </div>
                     </div>
                     @else
-                    <div class="text-gray-500">
-                        سيتم تحديث معلومات الطقس عند اختيار الدولة
+                    <div class="text-gray-500 p-3 bg-white rounded-lg">
+                        <div class="flex items-center justify-center">
+                            <i class="fas fa-cloud text-gray-300 text-3xl ml-2"></i>
+                            سيتم تحديث معلومات الطقس عند اختيار الدولة
+                        </div>
                     </div>
                     @endif
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-pink-500 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-pink-600 transition duration-300">
+            <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white font-bold py-3 rounded-xl shadow-lg hover:from-pink-600 hover:to-pink-700 transition duration-300 transform hover:scale-[1.01] flex items-center justify-center">
+                <i class="fas fa-save ml-2"></i>
                 حفظ التغييرات
             </button>
         </form>
 
-        <hr class="border-gray-200 my-8">
-
-        <!-- تسجيل الخروج -->
-        <div class="text-center mb-8">
-            <form method="POST" action="{{ route('logout') }}" class="inline-block">
-                @csrf
-                <button type="submit" class="bg-gray-500 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-gray-600 transition duration-300 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V7.414l-5-5H3zm4.707 5.707a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 11H13a1 1 0 100-2H6.414l1.293-1.293z" clip-rule="evenodd" />
-                    </svg>
-                    تسجيل الخروج
-                </button>
-            </form>
-        </div>
-
-        <hr class="border-gray-200 my-8">
-
-        <!-- حذف الحساب -->
-        <div class="text-center">
-            <h3 class="text-xl font-bold text-red-600 mb-4">حذف الحساب</h3>
-            <p class="text-gray-600 mb-4">سيتم حذف حسابك وجميع بياناتك بشكل نهائي</p>
-            <form method="POST" action="{{ route('profile.destroy') }}" class="inline-block">
-                @csrf
-                @method('delete')
-                <button type="submit" class="bg-red-500 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-red-600 transition duration-300" onclick="return confirm('هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه.')">
-                    حذف الحساب
-                </button>
-            </form>
+        <!-- إدارة الحساب -->
+        <div class="bg-gray-50 p-6 rounded-xl shadow-sm mt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-cog ml-2 text-gray-600"></i>
+                إدارة الحساب
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- تسجيل الخروج -->
+                <div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-xl shadow hover:bg-gray-300 transition duration-300 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V3a1 1 0 00-1-1H3zm7 4.414L11.414 9H5a1 1 0 100 2h6.414l-1.414 1.586a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414z" clip-rule="evenodd" />
+                            </svg>
+                            تسجيل الخروج
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- حذف الحساب -->
+                <div>
+                    <form method="POST" action="{{ route('profile.destroy') }}">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="w-full bg-red-100 text-red-600 font-bold py-3 px-6 rounded-xl shadow hover:bg-red-200 transition duration-300 flex items-center justify-center" onclick="return confirm('هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه.')">
+                            <i class="fas fa-user-slash ml-2"></i>
+                            حذف الحساب
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <p class="text-gray-500 text-sm mt-4 text-center">
+                <i class="fas fa-exclamation-triangle ml-1"></i>
+                سيتم حذف حسابك وجميع بياناتك بشكل نهائي عند تأكيد حذف الحساب
+            </p>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script src="{{ asset('js/weather-update.js') }}"></script>
+@endpush
 @endsection
->>>>>>> e80a85e91ffad3608c15fdcb1ee44c0e4ce02437

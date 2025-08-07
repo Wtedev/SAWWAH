@@ -69,6 +69,35 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+    
+    /**
+     * Update weather data via AJAX
+     */
+    public function updateWeather(Request $request)
+    {
+        if (!$request->ajax() || !$request->has('country')) {
+            return response()->json(['success' => false, 'message' => 'Invalid request'], 400);
+        }
+        
+        $country = $request->input('country');
+        $user = $request->user();
+        
+        // Get weather data from the service
+        $weatherData = $this->weatherService->getWeatherForCity($country);
+        
+        if (!$weatherData) {
+            return response()->json(['success' => false, 'message' => 'Could not retrieve weather data'], 500);
+        }
+        
+        // Update user with new weather data
+        $user->weather_data = $weatherData;
+        $user->save();
+        
+        return response()->json([
+            'success' => true,
+            'weatherData' => $weatherData
+        ]);
+    }
 
     /**
      * Delete the user's account.
