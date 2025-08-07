@@ -19,15 +19,15 @@ class WeatherController extends Controller
         ]);
 
         $capital = trim($request->input('capital'));
-        
+
         try {
             // استخدام OpenWeatherMap API
             $apiKey = env('OPENWEATHER_API_KEY');
-            
+
             if (!$apiKey) {
                 return $this->getDefaultWeatherData($capital);
             }
-            
+
             $weatherQuery = [
                 'q' => $capital,
                 'appid' => $apiKey,
@@ -41,7 +41,7 @@ class WeatherController extends Controller
 
             if ($weatherResponse->successful()) {
                 $weatherData = $weatherResponse->json();
-                
+
                 if (!isset($weatherData['main']) || !isset($weatherData['weather']) || empty($weatherData['weather'])) {
                     Log::error("Invalid weather data structure: " . json_encode($weatherData));
                     return $this->getDefaultWeatherData($capital);
@@ -59,7 +59,6 @@ class WeatherController extends Controller
                 Log::warning("OpenWeather API failed for {$capital}: " . $weatherResponse->body());
                 return $this->getWeatherFromBackupAPI($capital);
             }
-            
         } catch (\Exception $e) {
             Log::error("Weather API Exception for {$capital}: " . $e->getMessage());
             return $this->getDefaultWeatherData($capital);
@@ -74,7 +73,7 @@ class WeatherController extends Controller
         try {
             // محاولة استخدام API مجاني آخر أو WeatherAPI
             $apiKey = env('WEATHERAPI_KEY');
-            
+
             if ($apiKey) {
                 $response = Http::timeout(10)->get("http://api.weatherapi.com/v1/current.json", [
                     'key' => $apiKey,
@@ -84,7 +83,7 @@ class WeatherController extends Controller
 
                 if ($response->successful()) {
                     $weatherData = $response->json();
-                    
+
                     return response()->json([
                         'success' => true,
                         'temp' => round($weatherData['current']['temp_c']) . '°C',
@@ -95,9 +94,8 @@ class WeatherController extends Controller
                     ]);
                 }
             }
-            
+
             return $this->getDefaultWeatherData($capital);
-            
         } catch (\Exception $e) {
             Log::error('Backup Weather API Error: ' . $e->getMessage());
             return $this->getDefaultWeatherData($capital);
@@ -174,13 +172,13 @@ class WeatherController extends Controller
         ];
 
         $lowerCondition = strtolower($condition);
-        
+
         foreach ($translations as $english => $arabic) {
             if (str_contains($lowerCondition, $english)) {
                 return $arabic;
             }
         }
-        
+
         return $condition; // إرجاع النص الأصلي إذا لم توجد ترجمة
     }
 

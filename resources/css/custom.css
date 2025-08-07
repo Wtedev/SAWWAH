@@ -1,0 +1,59 @@
+/* ألوان موحدة للموقع */
+:root {
+    --primary-pink: #ff6178;
+    --primary-pink-hover: #e5556e;
+    --primary-pink-light: #ffeef1;
+    --primary-pink-50: #ffeef1;
+    --primary-pink-100: #ffccd5;
+    --primary-pink-200: #ff99aa;
+    --primary-pink-500: #ff6178;
+    --primary-pink-600: #e5556e;
+    --primary-pink-700: #cc4a63;
+}
+
+/* تصميم موحد للقوائم المنسدلة */
+.custom-select {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors duration-200 bg-white appearance-none cursor-pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: left 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.25rem 1.25rem;
+    padding-left: 2.5rem;
+}
+
+.custom-select:focus {
+    border-color: var(--primary-pink);
+    box-shadow: 0 0 0 2px rgba(255, 97, 120, 0.2);
+    outline: none;
+}
+
+/* إزالة الألوان الوردية القديمة واستبدالها بالجديدة */
+.bg-pink-50 { background-color: var(--primary-pink-50) !important; }
+.bg-pink-100 { background-color: var(--primary-pink-100) !important; }
+.bg-pink-500 { background-color: var(--primary-pink) !important; }
+.bg-pink-600 { background-color: var(--primary-pink) !important; }
+.bg-pink-700 { background-color: var(--primary-pink-hover) !important; }
+
+.text-pink-500 { color: var(--primary-pink) !important; }
+.text-pink-600 { color: var(--primary-pink) !important; }
+
+.border-pink-500 { border-color: var(--primary-pink) !important; }
+.ring-pink-200 { --tw-ring-color: rgba(255, 97, 120, 0.2) !important; }
+.ring-pink-500 { --tw-ring-color: var(--primary-pink) !important; }
+
+.focus\:border-pink-500:focus { border-color: var(--primary-pink) !important; }
+.focus\:ring-pink-500:focus { --tw-ring-color: var(--primary-pink) !important; }
+.focus\:ring-pink-200:focus { --tw-ring-color: rgba(255, 97, 120, 0.2) !important; }
+
+.hover\:bg-pink-600:hover { background-color: var(--primary-pink-hover) !important; }
+.hover\:bg-pink-700:hover { background-color: var(--primary-pink-hover) !important; }
+.hover\:text-pink-500:hover { color: var(--primary-pink) !important; }
+
+.from-pink-500 { --tw-gradient-from: var(--primary-pink) !important; }
+.from-pink-600 { --tw-gradient-from: var(--primary-pink) !important; }
+.to-pink-600 { --tw-gradient-to: var(--primary-pink) !important; }
+.to-pink-700 { --tw-gradient-to: var(--primary-pink-hover) !important; }
+
+.hover\:from-pink-600:hover { --tw-gradient-from: var(--primary-pink-hover) !important; }
+.hover\:from-pink-700:hover { --tw-gradient-from: var(--primary-pink-hover) !important; }
+.hover\:to-pink-700:hover { --tw-gradient-to: var(--primary-pink-hover) !important; }

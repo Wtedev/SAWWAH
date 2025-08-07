@@ -16,11 +16,11 @@ return new class extends Migration
             if (Schema::hasColumn('countries', 'postal_code')) {
                 $table->dropColumn('postal_code');
             }
-            
+
             if (Schema::hasColumn('countries', 'country_code')) {
                 $table->dropColumn('country_code');
             }
-            
+
             if (Schema::hasColumn('countries', 'code')) {
                 $table->dropColumn('code');
             }

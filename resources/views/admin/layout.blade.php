@@ -27,7 +27,7 @@
                 <a href="{{ route('admin.countries.index') }}" class="block text-gray-700 font-medium hover:text-pink-500">إدارة الدول</a>
                 <a href="{{ route('admin.events.index') }}" class="block text-gray-700 font-medium hover:text-pink-500">إدارة الفعاليات</a>
                 <hr class="my-4">
-                  <form method="POST" action="{{ route('logout') }}" class="inline">
+                <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
                     <button type="submit" class="block w-full text-right text-gray-700 font-medium hover:text-pink-500">تسجيل الخروج</button>
                 </form>

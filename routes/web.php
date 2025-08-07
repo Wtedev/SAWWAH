@@ -219,15 +219,15 @@ Route::post('/api/weather/country', [WeatherController::class, 'getWeatherByCoun
 // Weather Test Route (للاختبار فقط)
 Route::get('/test-weather', function () {
     $weatherController = new WeatherController();
-    
+
     $cities = ['Riyadh', 'Dubai', 'London', 'Cairo', 'Paris'];
     $results = [];
-    
+
     foreach ($cities as $city) {
         $request = new \Illuminate\Http\Request(['capital' => $city]);
         $response = $weatherController->getWeatherByCapital($request);
         $results[$city] = json_decode($response->getContent(), true);
     }
-    
+
     return view('test-weather', compact('results'));
 })->name('test.weather');
