@@ -12,7 +12,7 @@ class CountryAdminController extends Controller
 {
     public function index()
     {
-        $countries = Country::all();
+        $countries = Country::with('events')->get();
         return view('admin.countries.index', compact('countries'));
     }
 
@@ -23,59 +23,123 @@ class CountryAdminController extends Controller
     }
     public function store(Request $request)
     {
-
-
-      $weather_info = ["temp" => $request->temp, "condition" => $request->condition,];
-
-        $request->file('image')->store();
-        Country::create([
-            'name' => $request->name,
-            'description'=> $request->description,
-            'slug' => Str::slug($request->name),
-            'weather_info' => $weather_info,
-            'currency'=> $request->currency,
-            'daily_budget'=> $request->daily_budget,
-            'image'=> $request->file('image')->hashName(),
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'code' => 'nullable|string|max:10',
+            'postal_code' => 'nullable|string|max:20',
+            'capital' => 'nullable|string|max:255',
+            'description' => 'required|string',
+            'currency' => 'required|string|max:255',
+            'daily_budget' => 'required|string|max:255',
+            'temp' => 'required|string|max:255',
+            'condition' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'best_month_to_travel' => 'nullable|string',
+            'preferred_budget' => 'nullable|string',
+            'attraction' => 'nullable|string',
+            'travel_with' => 'nullable|string',
+            'language_preference' => 'nullable|string',
         ]);
 
-        return to_route('admin.countries.index');
+        $weather_info = [
+            "temp" => $request->temp,
+            "condition" => $request->condition,
+        ];
+
+        $imagePath = $request->file('image')->store('countries', 'public');
+
+        Country::create([
+            'name' => $request->name,
+            'code' => $request->code,
+            'postal_code' => $request->postal_code,
+            'capital' => $request->capital,
+            'description' => $request->description,
+            'slug' => Str::slug($request->name),
+            'weather_info' => $weather_info,
+            'currency' => $request->currency,
+            'daily_budget' => $request->daily_budget,
+            'image' => $imagePath,
+            'best_month_to_travel' => $request->best_month_to_travel,
+            'preferred_budget' => $request->preferred_budget,
+            'attraction' => $request->attraction,
+            'travel_with' => $request->travel_with,
+            'language_preference' => $request->language_preference,
+        ]);
+
+        return redirect()->route('admin.countries.index')->with('success', 'تم إضافة الدولة بنجاح');
     }
 
     public function edit(Country $country)
     {
         return view('admin.countries.edit', compact('country'));
-
     }
 
     public function update(Request $request, Country $country)
     {
-        $weather_info = ["temp" => $request->temp, "condition" => $request->condition,];
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'code' => 'nullable|string|max:10',
+            'postal_code' => 'nullable|string|max:20',
+            'capital' => 'nullable|string|max:255',
+            'description' => 'required|string',
+            'currency' => 'required|string|max:255',
+            'daily_budget' => 'required|string|max:255',
+            'temp' => 'required|string|max:255',
+            'condition' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'best_month_to_travel' => 'nullable|string',
+            'preferred_budget' => 'nullable|string',
+            'attraction' => 'nullable|string',
+            'travel_with' => 'nullable|string',
+            'language_preference' => 'nullable|string',
+        ]);
 
-        $fileName = $country->image;
-        if ($request->has('image')){
-             $country->image;
-            Storage::delete($country->image);
-            $fileName = $request->file('image')->store();
+        $weather_info = [
+            "temp" => $request->temp,
+            "condition" => $request->condition,
+        ];
+
+        $imagePath = $country->image;
+        if ($request->hasFile('image')) {
+            // حذف الصورة القديمة
+            if ($country->image) {
+                Storage::disk('public')->delete($country->image);
+            }
+            // رفع الصورة الجديدة
+            $imagePath = $request->file('image')->store('countries', 'public');
         }
 
         $country->update([
             'name' => $request->name,
-            'description'=> $request->description,
+            'code' => $request->code,
+            'postal_code' => $request->postal_code,
+            'capital' => $request->capital,
+            'description' => $request->description,
             'slug' => Str::slug($request->name),
             'weather_info' => $weather_info,
-            'currency'=> $request->currency,
-            'daily_budget'=> $request->daily_budget,
-            'image'=> $fileName,
+            'currency' => $request->currency,
+            'daily_budget' => $request->daily_budget,
+            'image' => $imagePath,
+            'best_month_to_travel' => $request->best_month_to_travel,
+            'preferred_budget' => $request->preferred_budget,
+            'attraction' => $request->attraction,
+            'travel_with' => $request->travel_with,
+            'language_preference' => $request->language_preference,
         ]);
-        return to_route('admin.countries.edit', $country->slug);
+
+        return redirect()->route('admin.countries.index')->with('success', 'تم تحديث الدولة بنجاح');
     }
 
 
     public function destroy(Country $country)
     {
+        // حذف الصورة من التخزين
+        if ($country->image) {
+            Storage::disk('public')->delete($country->image);
+        }
 
-        Storage::delete($country->image);
         $country->delete();
-        return to_route('admin.countries.index');
+
+        return redirect()->route('admin.countries.index')->with('success', 'تم حذف الدولة بنجاح');
     }
 }

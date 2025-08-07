@@ -35,9 +35,9 @@
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4" id="eventsGrid">
-        @foreach($upcomingEvents as $event)
+    @foreach($upcomingEvents as $event)
     <div class="event-card relative" data-city="{{ $event->city }}" onclick="window.location.href='{{ route('events.show', $event) }}'">
-      <img src="{{ asset('images/' . $event->image) }}" alt="{{ $event->name }}" class="h-48 w-full object-cover rounded-t-xl">
+        <img src="{{ asset('images/' . $event->image) }}" alt="{{ $event->name }}" class="h-48 w-full object-cover rounded-t-xl">
         <div class="p-5 relative">
             <h3 class="text-xl font-bold text-pink-600 mb-3">{{ $event->name }}</h3>
             <div class="space-y-2 mb-8">
@@ -54,12 +54,12 @@
                     </svg>
                     <span>{{ $event->city }} - {{ $event->location }}</span>
                 </div>
-                @if($event->cost)
+                @if($event->price)
                 <div class="flex items-center text-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    <span>{{ $event->cost }}</span>
+                    <span>{{ $event->price }}</span>
                 </div>
                 @endif
                 <p class="text-gray-600 line-clamp-2">{{ $event->description }}</p>
@@ -80,7 +80,7 @@
 </div>
 <script>
     // Handle city filtering only
-    
+
 
     function filterEvents() {
         const selectedCity = document.getElementById("citySelect").value;

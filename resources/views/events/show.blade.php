@@ -1,4 +1,3 @@
-
 @extends('layout.app')
 
 @section('title', $event->name . ' - سواح')
@@ -146,7 +145,7 @@
                 @endif
             </div>
         </div>
-        
+
         {{-- زر الرجوع --}}
         <div class="mt-8">
             <a href="{{ route('events.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">
@@ -159,4 +158,3 @@
     </div>
 </div>
 @endsection
-

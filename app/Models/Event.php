@@ -9,6 +9,7 @@ class Event extends Model
     protected $fillable = [
         'country_id',
         'name',
+        'title',
         'slug',
         'description',
         'city',

@@ -6,7 +6,7 @@
 <form action="{{ route('trip-planner') }}" method="GET">
     <div class="mb-10 text-center">
         <h1 class="text-4xl font-bold text-gray-800">مخطط الرحلات</h1>
-        <p class="text-gray-500 mt-2 text-xl">اجعل تخطيط سفرك ممتعًا وسهلاً🗺️</p>
+        <p class="text-gray-500 mt-2 text-xl">اجعل تخطيط سفرك ممتعًا وسهلاً</p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 px-4 sm:px-10 md:px-20">

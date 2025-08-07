@@ -8,7 +8,7 @@
     <div class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url('/images/bg-hero.jpg');"></div>
     <div class="relative z-10 py-20">
         <h1 class="text-4xl font-bold text-pink-600 animate-pulse">مرحباً بك في <span class="text-gray-800">سَوّاح</span>!</h1>
-        <p class="text-gray-500 mt-4 text-lg">منصة تساعدك على تخطيط رحلاتك بسهولة وذكاء ✨</p>
+        <p class="text-gray-500 mt-4 text-lg">منصة تساعدك على تخطيط رحلاتك بسهولة وذكاء</p>
     </div>
 </section>
 

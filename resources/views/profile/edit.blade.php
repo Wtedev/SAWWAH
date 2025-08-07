@@ -119,6 +119,21 @@
 
         <hr class="border-gray-200 my-8">
 
+        <!-- تسجيل الخروج -->
+        <div class="text-center mb-8">
+            <form method="POST" action="{{ route('logout') }}" class="inline-block">
+                @csrf
+                <button type="submit" class="bg-gray-500 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-gray-600 transition duration-300 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V7.414l-5-5H3zm4.707 5.707a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 11H13a1 1 0 100-2H6.414l1.293-1.293z" clip-rule="evenodd" />
+                    </svg>
+                    تسجيل الخروج
+                </button>
+            </form>
+        </div>
+
+        <hr class="border-gray-200 my-8">
+
         <!-- حذف الحساب -->
         <div class="text-center">
             <h3 class="text-xl font-bold text-red-600 mb-4">حذف الحساب</h3>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CountryAdminController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EventPublicController;
 use App\Http\Controllers\Admin\EventAdminController;
+// API routes
+use App\Http\Controllers\WeatherController;
 
 // ✅ الصفحة الرئيسية
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -28,6 +31,36 @@ Route::get('/trips', [TripController::class, 'index'])->name('trips.index');
 // ✅ صفحة تفاصيل رحلة (ID ديناميكي)
 Route::get('/trips/{id}', [TripController::class, 'show'])->name('trips.show');
 
+// API للطقس (للاستخدام في لوحة الإدارة)
+
+
+// مسارات لوحة التحكم
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // مسارات إدارة الدول
+    Route::controller(CountryAdminController::class)->group(function () {
+        Route::get('/countries', 'index')->name('admin.countries.index');
+        Route::get('/countries/create', 'create')->name('admin.countries.create');
+        Route::post('/countries', 'store')->name('admin.countries.store');
+        Route::get('/countries/{country}/edit', 'edit')->name('admin.countries.edit');
+        Route::put('/countries/{country}', 'update')->name('admin.countries.update');
+        Route::delete('/countries/{country}', 'destroy')->name('admin.countries.destroy');
+    });
+
+    // مسارات إدارة الفعاليات
+    Route::controller(EventAdminController::class)->group(function () {
+        Route::get('/events', 'index')->name('admin.events.index');
+        Route::get('/events/create', 'create')->name('admin.events.create');
+        Route::post('/events', 'store')->name('admin.events.store');
+        Route::get('/events/{event}/edit', 'edit')->name('admin.events.edit');
+        Route::put('/events/{event}', 'update')->name('admin.events.update');
+        Route::delete('/events/{event}', 'destroy')->name('admin.events.destroy');
+    });
+});
+
+
+
 // ✅ لوحة التحكم (تحتاج تسجيل دخول)
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -42,6 +75,18 @@ Route::middleware('auth')->group(function () {
 
 // ✅ تسجيل الدخول والتسجيل
 require __DIR__ . '/auth.php';
+
+// مسارات لوحة التحكم للأدمن
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    // الصفحة الرئيسية للوحة التحكم
+    Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+
+    // إدارة الفعاليات
+    Route::resource('events', App\Http\Controllers\Admin\EventAdminController::class);
+
+    // إدارة الدول
+    Route::resource('countries', App\Http\Controllers\Admin\CountryAdminController::class);
+});
 
 
 
@@ -147,8 +192,25 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin/events')->name('admin.eve
 // 👑 صفحات الأدمن (Admin)
 // ===============================
 
+
+
+// مسارات لوحة التحكم
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    // لوحة التحكم الرئيسية
+    Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+
+    // إدارة الفعاليات
+    Route::resource('events', App\Http\Controllers\Admin\EventAdminController::class);
+
+    // إدارة الدول
+    Route::resource('countries', App\Http\Controllers\Admin\CountryAdminController::class);
+});
+
 // 🌐 إدارة الدول
 
 Route::prefix('admin')->group(function () {
     Route::resource('countries', CountryAdminController::class)->names('admin.countries');
 });
+
+// Weather API Route
+Route::post('/api/weather/country', [WeatherController::class, 'getWeatherByCountryCode'])->name('api.weather.country');

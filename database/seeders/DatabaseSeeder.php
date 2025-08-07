@@ -10,12 +10,10 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Lama',
-            'email' => 'lama@example.com',
-            'password' => Hash::make('12345678'),
-        ]);
+        // إضافة المستخدم الأدمن
+        $this->call(UserSeeder::class);
 
+        // إضافة البيانات الأخرى
         $this->call(CountrySeeder::class);
         $this->call(UpdateCountryDataSeeder::class);
         $this->call(EventSeeder::class);

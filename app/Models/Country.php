@@ -11,13 +11,19 @@ class Country extends Model
     protected $fillable = [
         'name',
         'code',
+        'postal_code',
         'description',
         'currency',
         'weather_info',
         'image',
         'daily_budget',
         'slug',
-        'capital'
+        'capital',
+        'best_month_to_travel',
+        'preferred_budget',
+        'attraction',
+        'travel_with',
+        'language_preference'
     ];
 
     protected $casts = ['weather_info' => 'object'];
