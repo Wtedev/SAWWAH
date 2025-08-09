@@ -41,10 +41,10 @@
             </div>
 
             <div class="flex gap-2">
-                <a href="{{ route('admin.events.edit', $event->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded transition-colors">
+                <a href="{{ route('admin.events.edit', $event->slug) }}" class="bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded transition-colors">
                     تعديل
                 </a>
-                <form method="POST" action="{{ route('admin.events.destroy', $event->id) }}" class="inline" onsubmit="return confirm('هل أنت متأكد من حذف هذه الفعالية؟')">
+                <form method="POST" action="{{ route('admin.events.destroy', $event->slug) }}" class="inline" onsubmit="return confirm('هل أنت متأكد من حذف هذه الفعالية؟')">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white text-xs font-medium px-3 py-1 rounded transition-colors">

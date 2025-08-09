@@ -18,7 +18,7 @@
     </div>
     @endif
 
-    <form method="POST" action="{{ isset($event) ? route('admin.events.update', $event->id) : route('admin.events.store') }}" class="space-y-4">
+    <form method="POST" action="{{ isset($event) ? route('admin.events.update', $event->slug) : route('admin.events.store') }}" class="space-y-4">
         @csrf
         @if(isset($event))
         @method('PUT')

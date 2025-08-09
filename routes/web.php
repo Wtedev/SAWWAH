@@ -79,18 +79,6 @@ Route::middleware('auth')->group(function () {
 // ✅ تسجيل الدخول والتسجيل
 require __DIR__ . '/auth.php';
 
-// مسارات لوحة التحكم للأدمن
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    // الصفحة الرئيسية للوحة التحكم
-    Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-
-    // إدارة الفعاليات
-    Route::resource('events', App\Http\Controllers\Admin\EventAdminController::class);
-
-    // إدارة الدول
-    Route::resource('countries', App\Http\Controllers\Admin\CountryAdminController::class);
-});
-
 
 
 
