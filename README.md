@@ -1,6 +1,5 @@
 <p align="center">
   <a href="https://github.com/Wtedev/SAWWAH" target="_blank">
-    <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-travel-vacation-planning-flaticons-lineal-color-flat-icons.png" width="150" alt="SAWWAH Logo">
   </a>
 </p>
 
