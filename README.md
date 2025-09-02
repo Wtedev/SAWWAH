@@ -13,15 +13,15 @@
 
 ## ✨ Features
 - Destination suggestions tailored to **budget and interests**  
-- Comprehensive info about **countries, weather, hotels, events, and restaurants**  
+- Comprehensive info about **countries, weather, events, and currncy**  
 - User-friendly interface for travelers  
-- Admin dashboard to manage destinations, events, and data  
+- Admin dashboard to manage destinations, events, and data
 
 ---
 
 ## 🛠️ Tech Stack
 - **Laravel 11** – Backend framework  
-- **PostgreSQL** – Database  
+- **MySQL** – Database  
 - **Tailwind CSS** – Frontend styling  
 - **APIs** – Weather & booking integrations  
 
